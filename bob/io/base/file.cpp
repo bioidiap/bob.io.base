@@ -396,7 +396,7 @@ static auto s_write = bob::extension::FunctionDoc(
   true
 )
 .add_prototype("data")
-.add_parameter("data", "array_like", "[optional]  The array to be written into the file; it can be a :py:class:`numpy.array`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
+.add_parameter("data", "array_like", "The array to be written into the file; it can be a :py:class:`numpy.array`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
 ;
 static PyObject* PyBobIoFile_write(PyBobIoFileObject* self, PyObject *args, PyObject* kwds) {
 BOB_TRY
@@ -424,7 +424,7 @@ static auto s_append = bob::extension::FunctionDoc(
   true
 )
 .add_prototype("data", "position")
-.add_parameter("data", "array_like", "[optional]  The array to be written into the file; it can be a :py:class:`numpy.array`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
+.add_parameter("data", "array_like", "The array to be written into the file; it can be a :py:class:`numpy.array`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
 .add_return("position", "int", "The current position of the newly written data")
 ;
 static PyObject* PyBobIoFile_append(PyBobIoFileObject* self, PyObject *args, PyObject* kwds) {

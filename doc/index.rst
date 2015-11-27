@@ -10,11 +10,15 @@
  Bob's Core I/O Routines
 =========================
 
-.. todolist::
+This module contains a basic interface to read and write files of various types.
+It provides generic functions :py:func:`bob.io.base.save` and :py:func:`bob.io.base.load` to write and read various types of data.
+In this interface, data is mainly written using the :py:class:`bob.io.base.HDF5File` interface.
+To enable further types of IO, please import one of the following packages (the list might not be exhaustive):
 
-This module contains base functionality from Bob bound to Python, available in
-the C++ counter-part ``bob::io``. It includes input and output operations to
-and from files.
+* :ref:`bob.io.image <bob.io.image>` to load and save images of various kinds
+* :ref:`bob.io.video <bob.io.video>` to load and save videos of various types
+* :ref:`bob.io.matlab <bob.io.matlab>` to load and save matrices in basic matlab ``.mat`` files
+
 
 Documentation
 -------------
@@ -25,6 +29,11 @@ Documentation
    guide
    py_api
    c_cpp_api
+
+TODO
+----
+
+.. todolist::
 
 Indices and tables
 ------------------

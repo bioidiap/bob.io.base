@@ -49,7 +49,7 @@ Generic Functions
 
    Converts the input Bob element type into a ``NPY_<TYPE>`` enumeration value.
    Returns ``NPY_NOTYPE`` in case of problems, and sets a
-   :py:class:`RuntimeError`.
+   :py:exc:`RuntimeError`.
 
 .. cpp:function:: PyObject* PyBobIo_TypeInfoAsTuple (const bob::core::array::typeinfo& ti)
 

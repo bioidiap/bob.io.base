@@ -12,7 +12,7 @@ from .version import api as __api_version__
 
 import os
 
-def __is_string__(s):
+def _is_string(s):
   """Returns ``True`` if the given object is a string
 
   This method can be used with Python-2.x or 3.x and returns a string
@@ -30,13 +30,13 @@ def create_directories_safe(directory, dryrun=False):
   If the dryrun option is selected, it does not actually create the directory,
   but just writes the (Linux) command that would have been executed.
 
-  Parameters:
+  **Parameters:**
 
-  directory
+  ``directory`` : str
     The directory that you want to create.
 
-  dryrun
-    Only write the command, but do not execute it.
+  ``dryrun`` : bool
+    Only ``print`` the command to console, but do not execute it.
   """
   try:
     if dryrun:
@@ -51,12 +51,14 @@ def create_directories_safe(directory, dryrun=False):
 
 
 def load(inputs):
-  """Loads the contents of a file, an iterable of files, or an iterable of
+  """load(inputs) -> data
+
+  Loads the contents of a file, an iterable of files, or an iterable of
   :py:class:`bob.io.base.File`'s into a :py:class:`numpy.ndarray`.
 
-  Parameters:
+  **Parameters:**
 
-  inputs
+  ``inputs`` : various types
 
     This might represent several different entities:
 
@@ -66,24 +68,29 @@ def load(inputs):
     2. An iterable of filenames to be loaded in memory. In this case, this
        would assume that each file contains a single 1D sample or a set of 1D
        samples, load them in memory and concatenate them into a single and
-       returned 2D numpy ndarray.
-    3. An iterable of :py:class:`bob.io.base.File`. In this case, this would assume
-       that each :py:class:`bob.io.base.File` contains a single 1D sample or a set
+       returned 2D :py:class:`numpy.ndarray`.
+    3. An iterable of :py:class:`File`. In this case, this would assume
+       that each :py:class:`File` contains a single 1D sample or a set
        of 1D samples, load them in memory if required and concatenate them into
-       a single and returned 2D numpy ndarray.
-    4. An iterable with mixed filenames and :py:class:`bob.io.base.File`. In this
+       a single and returned 2D :py:class:`numpy.ndarray`.
+    4. An iterable with mixed filenames and :py:class:`File`. In this
        case, this would returned a 2D :py:class:`numpy.ndarray`, as described
        by points 2 and 3 above.
+
+  **Returns:**
+
+  ``data`` : :py:class:`numpy.ndarray`
+    The data loaded from the given ``inputs``.
   """
 
   from collections import Iterable
   import numpy
-  if __is_string__(inputs):
+  if _is_string(inputs):
     return File(inputs, 'r').read()
   elif isinstance(inputs, Iterable):
     retval = []
     for obj in inputs:
-      if __is_string__(obj):
+      if _is_string(obj):
         retval.append(load(obj))
       elif isinstance(obj, File):
         retval.append(obj.read())
@@ -94,19 +101,27 @@ def load(inputs):
     raise TypeError("Unexpected input object. This function is expecting a filename, or an iterable of filenames and/or bob.io.base.File's")
 
 def merge(filenames):
-  """Converts an iterable of filenames into an iterable over read-only
-  bob.io.base.File's.
+  """merge(filenames) -> files
 
-  Parameters:
+  Converts an iterable of filenames into an iterable over read-only
+  :py:class`bob.io.base.File`'s.
 
-  filenames
+  **Parameters:**
 
+  ``filenames`` : str or [str]
+
+    A list of file names.
     This might represent:
 
     1. A single filename. In this case, an iterable with a single
-       :py:class:`bob.io.base.File` is returned.
+       :py:class:`File` is returned.
     2. An iterable of filenames to be converted into an iterable of
-       :py:class:`bob.io.base.File`'s.
+       :py:class:`File`'s.
+
+  **Returns:**
+
+  ``files`` : [:py:class:`File`]
+    The list of files.
   """
 
   from collections import Iterable
@@ -121,20 +136,20 @@ def merge(filenames):
 def save(array, filename, create_directories = False):
   """Saves the contents of an array-like object to file.
 
-  Effectively, this is the same as creating a :py:class:`bob.io.base.File` object
-  with the mode flag set to `w` (write with truncation) and calling
-  :py:meth:`bob.io.base.File.write` passing `array` as parameter.
+  Effectively, this is the same as creating a :py:class:`File` object
+  with the mode flag set to ``'w'`` (write with truncation) and calling
+  :py:meth:`File.write` passing ``array`` as parameter.
 
   Parameters:
 
-  array
+  ``array`` : array_like
     The array-like object to be saved on the file
 
-  filename
+  ``filename`` : str
     The name of the file where you need the contents saved to
 
-  create_directories
-    Automatically generate the directories if required
+  ``create_directories`` : bool
+    Automatically generate the directories if required (defaults to ``False`` because of compatibility reasons; might change in future to default to ``True``)
   """
   # create directory if not existent yet
   if create_directories:
@@ -147,47 +162,66 @@ write = save
 read = load
 
 def append(array, filename):
-  """Appends the contents of an array-like object to file.
+  """append(array, filename) -> position
 
-  Effectively, this is the same as creating a :py:class:`bob.io.base.File` object
-  with the mode flag set to `a` (append) and calling
-  :py:meth:`bob.io.base.File.append` passing `array` as parameter.
+  Appends the contents of an array-like object to file.
 
-  Parameters:
+  Effectively, this is the same as creating a :py:class:`File` object
+  with the mode flag set to ``'a'`` (append) and calling
+  :py:meth:`File.append` passing ``array`` as parameter.
 
-  array
+  **Parameters:**
+
+  ``array`` : array_like
     The array-like object to be saved on the file
 
-  filename
+  ``filename`` : str
     The name of the file where you need the contents saved to
+
+  **Returns:**
+
+  ``position`` : int
+    See :py:meth:`File.append`
   """
   return File(filename, 'a').append(array)
 
 def peek(filename):
-  """Returns the type of array (frame or sample) saved in the given file.
+  """peek(filename) -> dtype, shape, stride
 
-  Effectively, this is the same as creating a :py:class:`bob.io.base.File` object
-  with the mode flag set to `r` (read-only) and returning
-  :py:func:`bob.io.base.File.describe`.
+  Returns the type of array (frame or sample) saved in the given file.
 
-  Parameters:
+  Effectively, this is the same as creating a :py:class:`File` object
+  with the mode flag set to `r` (read-only) and calling
+  :py:meth:`File.describe`.
 
-  filename
+  **Parameters**:
+
+  ``filename`` : str
     The name of the file to peek information from
+
+  **Returns:**
+
+  ``dtype, shape, stride`` : see :py:meth:`File.describe`
   """
   return File(filename, 'r').describe()
 
 def peek_all(filename):
-  """Returns the type of array (for full readouts) saved in the given file.
+  """peek_all(filename) -> dtype, shape, stride
 
-  Effectively, this is the same as creating a :py:class:`bob.io.base.File` object
-  with the mode flag set to `r` (read-only) and returning
-  ``bob.io.base.File.describe(all=True)``.
+  Returns the type of array (for full readouts) saved in the given file.
 
-  Parameters:
+  Effectively, this is the same as creating a :py:class:`File` object
+  with the mode flag set to ``'r'`` (read-only) and returning
+  ``File.describe`` with its parameter ``all`` set to ``True``.
 
-  filename
+  **Parameters:**
+
+  ``filename`` : str
     The name of the file to peek information from
+
+  **Returns:**
+
+  ``dtype, shape, stride`` : see :py:meth:`File.describe`
   """
   return File(filename, 'r').describe(all=True)
 
@@ -201,8 +235,18 @@ def get_config():
 
 
 def get_include_directories():
-  """Returns a list of include directories for dependent libraries, such as HDF5."""
-  from bob.extension import pkgconfig
+  """get_include_directories() -> includes
+
+  Returns a list of include directories for dependent libraries, such as HDF5.
+  This function is automatically used by :py:func:`bob.extension.get_bob_libraries` to retrieve the non-standard include directories that are required to use the C bindings of this library in dependent classes.
+  You shouldn't normally need to call this function by hand.
+
+  **Returns:**
+
+  ``includes`` : [str]
+    The list of non-standard include directories required to use the C bindings of this class.
+    For now, only the directory for the HDF5 headers are returned.
+  """
   # try to use pkg_config first
   try:
     from bob.extension.utils import find_header
@@ -214,6 +258,7 @@ def get_include_directories():
 
     return [os.path.dirname(candidates[0])]
   except RuntimeError:
+    from bob.extension import pkgconfig
     pkg = pkgconfig('hdf5')
     return pkg.include_directories()
 

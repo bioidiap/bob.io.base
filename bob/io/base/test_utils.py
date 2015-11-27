@@ -11,46 +11,92 @@
 import os
 import functools
 import nose.plugins.skip
-from distutils.version import StrictVersion as SV
 
 def datafile(f, module=None, path='data'):
-  """Returns the test file on the "data" subdirectory of the current module.
+  """datafile(f, [module], [data]) -> filename
 
-  Keyword attributes
+  Returns the test file on the "data" subdirectory of the current module.
 
-  f: str
-    This is the filename of the file you want to retrieve. Something like
-    ``'movie.avi'``.
+  **Parameters:**
 
-  module: string, optional
-    This is the python-style package name of the module you want to retrieve
-    the data from. This should be something like ``bob.io.test``, but you
+  ``f`` : str
+    This is the filename of the file you want to retrieve. Something like ``'movie.avi'``.
+
+  ``module``: str
+    [optional] This is the python-style package name of the module you want to retrieve
+    the data from. This should be something like ``bob.io.base``, but you
     normally refer it using the ``__name__`` property of the module you want to
     find the path relative to.
 
-  path: str, optional
-    This is the subdirectory where the datafile will be taken from inside the
-    module. Normally (the default) ``data``. It can be set to ``None`` if it
-    should be taken from the module path root (where the ``__init__.py`` file
-    sits).
+  ``path``: str
+    [Default: ``'data'``] The subdirectory where the datafile will be taken from inside the module.
+    It can be set to ``None`` if it should be taken from the module path root (where the ``__init__.py`` file sits).
 
-  Returns the full path of the file.
+  **Returns:**
+
+  ``filename`` : str
+    The full path of the file
   """
 
   resource = __name__ if module is None else module
   final_path = f if path is None else os.path.join(path, f)
-  return __import__('pkg_resources').resource_filename(resource, final_path)
+  import pkg_resources
+  return pkg_resources.resource_filename(resource, final_path)
+
 
 def temporary_filename(prefix='bobtest_', suffix='.hdf5'):
-  """Generates a temporary filename to be used in tests"""
+  """temporary_filename([prefix], [suffix]) -> filename
 
-  (fd, name) = __import__('tempfile').mkstemp(suffix, prefix)
+  Generates a temporary filename to be used in tests, using the default ``temp`` directory (on Unix-like systems, usually ``/tmp``).
+  Please note that you are responsible for deleting the file after your test finished.
+  A common way to assure the file to be deleted is:
+
+  .. code-block:: py
+
+     import bob.io.base.test_utils
+     temp = bob.io.base.test_utils.temporary_filename()
+     try:
+       # use the temp file
+       ...
+     finally:
+       if os.path.exist(temp): os.remove(temp)
+
+  **Parameters:**
+
+  ``prefix`` : str
+    [Default: ``'bobtest_'``] The file name prefix to be added in front of the random file name
+
+  ``suffix`` : str
+    [Default: ``'.hdf5'``] The file name extension of the temporary file name
+
+  **Returns:**
+
+  ``filename`` : str
+    The name of a temporary file that you can use in your test.
+    Don't forget to delete!
+
+  """
+  import tempfile
+  fd, name = tempfile.mkstemp(suffix, prefix)
   os.close(fd)
   os.unlink(name)
   return name
 
+
 def extension_available(extension):
-  '''Decorator to check if a extension is available before enabling a test'''
+  '''Decorator to check if a extension is available before enabling a test
+
+  This decorator is mainly used to decorate a test function, in order to skip tests when the extension is not available.
+  The syntax is:
+
+  .. code-block:: py
+
+     import bob.io.base.test_utils
+
+     @bob.io.base.test_utils.extension_available('.ext')
+     def my_test():
+       ...
+  '''
 
   def test_wrapper(test):
 
