@@ -104,7 +104,7 @@ def merge(filenames):
   """merge(filenames) -> files
 
   Converts an iterable of filenames into an iterable over read-only
-  :py:class`bob.io.base.File`'s.
+  :py:class:`bob.io.base.File`'s.
 
   **Parameters:**
 

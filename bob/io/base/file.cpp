@@ -46,7 +46,7 @@ static auto s_file = bob::extension::ClassDoc(
   )
   .add_prototype("filename, [mode], [pretend_extension]", "")
   .add_parameter("filename", "str", "The file path to the file you want to open")
-  .add_parameter("mode", "str, one of ('r', 'w', 'a')", "[Default: ``'r'``] A single character indicating if you'd like to ``'r'``ead, ``'w'``rite or ``'a'``ppend into the file; if you choose ``'w'`` and the file already exists, it will be  truncated")
+  .add_parameter("mode", "one of ('r', 'w', 'a')", "[Default: ``'r'``] A single character indicating if you'd like to ``'r'``\\ ead, ``'w'``\\ rite or ``'a'``\\ ppend into the file; if you choose ``'w'`` and the file already exists, it will be truncated")
   .add_parameter("pretend_extension", "str", "[optional] An extension to use; see :py:func:`bob.io.base.extensions` for a list of (currently) supported extensions")
 );
 /* How to create a new PyBobIoFileObject */
@@ -396,7 +396,7 @@ static auto s_write = bob::extension::FunctionDoc(
   true
 )
 .add_prototype("data")
-.add_parameter("data", "array_like", "The array to be written into the file; it can be a :py:class:`numpy.array`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
+.add_parameter("data", "array_like", "The array to be written into the file; it can be a :py:class:`numpy.ndarray`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
 ;
 static PyObject* PyBobIoFile_write(PyBobIoFileObject* self, PyObject *args, PyObject* kwds) {
 BOB_TRY
@@ -424,7 +424,7 @@ static auto s_append = bob::extension::FunctionDoc(
   true
 )
 .add_prototype("data", "position")
-.add_parameter("data", "array_like", "The array to be written into the file; it can be a :py:class:`numpy.array`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
+.add_parameter("data", "array_like", "The array to be written into the file; it can be a :py:class:`numpy.ndarray`, a :py:class:`bob.blitz.array` or any other object which can be converted to either of them")
 .add_return("position", "int", "The current position of the newly written data")
 ;
 static PyObject* PyBobIoFile_append(PyBobIoFileObject* self, PyObject *args, PyObject* kwds) {
