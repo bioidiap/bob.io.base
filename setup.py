@@ -145,6 +145,8 @@ define_macros = hdf5_pkg.macros()
 
 
 setup(
+    namespace_packages=['bob'],
+
 
     name='bob.io.base',
     version=version,
