@@ -172,7 +172,7 @@ namespace bob { namespace io { namespace base { namespace array {
        * specify. We will do this by copying the data you gave.
        */
       template <typename T, int N> void set(const blitz::Array<T,N>& data) {
-        set(boost::make_shared<blitz::Array<T,N> >(ccopy(data)));
+        set(boost::make_shared<blitz::Array<T,N> >(bob::core::array::ccopy(data)));
       }
 
       /**
