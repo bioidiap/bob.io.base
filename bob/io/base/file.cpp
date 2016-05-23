@@ -226,7 +226,6 @@ int PyBobIo_AsTypenum (bob::io::base::array::ElementType type) {
 }
 
 static PyObject* PyBobIoFile_getIndex (PyBobIoFileObject* self, Py_ssize_t i) {
-
   if (i < 0) i += self->f->size(); ///< adjust for negative indexing
 
   if (i < 0 || (size_t)i >= self->f->size()) {
@@ -246,21 +245,9 @@ static PyObject* PyBobIoFile_getIndex (PyBobIoFileObject* self, Py_ssize_t i) {
   if (!retval) return 0;
   auto retval_ = make_safe(retval);
 
-  try {
-    bobskin skin((PyArrayObject*)retval, info.dtype);
-    self->f->read(skin, i);
-  }
-  catch (std::exception& e) {
-    if (!PyErr_Occurred()) PyErr_SetString(PyExc_RuntimeError, e.what());
-    return 0;
-  }
-  catch (...) {
-    if (!PyErr_Occurred()) PyErr_Format(PyExc_RuntimeError, "caught unknown exception while reading object #%" PY_FORMAT_SIZE_T "d from file `%s'", i, self->f->filename());
-    return 0;
-  }
-
+  bobskin skin((PyArrayObject*)retval, info.dtype);
+  self->f->read(skin, i);
   return Py_BuildValue("O", retval);
-
 }
 
 static PyObject* PyBobIoFile_getSlice (PyBobIoFileObject* self, PySliceObject* slice) {
