@@ -133,16 +133,16 @@ Bob HDF5 Support
 
 .. cpp:type:: PyBobIoHDF5FileObject
 
-   The pythonic object representation for a ``bob::io::HDF5File`` object.
+   The pythonic object representation for a ``bob::io::base::HDF5File`` object.
 
    .. code-block:: cpp
 
       typedef struct {
         PyObject_HEAD
-        boost::shared_ptr<bob::io::HDF5File> f;
+        boost::shared_ptr<bob::io::base::HDF5File> f;
       } PyBobIoHDF5FileObject;
 
-   .. cpp:member:: boost::shared_ptr<bob::io::HDF5File> f
+   .. cpp:member:: boost::shared_ptr<bob::io::base::HDF5File> f
 
       A pointer to a Bob object being used to read/write data into an HDF5
       file.
