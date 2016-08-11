@@ -149,7 +149,7 @@ setup(
     name='bob.io.base',
     version=version,
     description='Basic IO for Bob',
-    url='http://github.com/bioidiap/bob.io.base',
+    url='http://gitlab.idiap.ch/bob/bob.io.base',
     license='BSD',
     author='Andre Anjos',
     author_email='andre.anjos@idiap.ch',
