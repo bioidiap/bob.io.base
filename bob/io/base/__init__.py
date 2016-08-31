@@ -5,12 +5,33 @@ import bob.core
 import bob.extension
 bob.extension.load_bob_library('bob.io.base', __file__)
 
-from ._library import File, HDF5File, extensions
+from ._library import File as File_C, HDF5File as HDF5File_C, extensions
 from . import version
 from .version import module as __version__
 from .version import api as __api_version__
 
 import os
+
+
+class File(File_C):
+  __doc__ = File_C.__doc__
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, type, value, traceback):
+    self.close()
+
+
+class HDF5File(HDF5File_C):
+  __doc__ = HDF5File_C.__doc__
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, type, value, traceback):
+    self.close()
+
 
 def _is_string(s):
   """Returns ``True`` if the given object is a string
