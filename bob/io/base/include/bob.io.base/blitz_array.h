@@ -244,7 +244,7 @@ namespace bob { namespace io { namespace base { namespace array {
        * data at. Only get the number of dimensions right!
        */
       template <typename T, int N> blitz::Array<T,N> cast() const {
-        return bob::core::array::cast<T,N>(*this);
+        return bob::io::base::array::cast<T,N>(*this);
       }
 
     private: //representation
