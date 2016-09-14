@@ -6,6 +6,7 @@
  */
 
 #include <bob.io.base/api.h>
+#include <bob.blitz/cleanup.h>
 #include <bob.extension/documentation.h>
 
 #include <boost/format.hpp>
