@@ -40,14 +40,17 @@ BOB_TRY
   output.reset();
 
   auto input = h5file(hdf5.string().c_str(), 'r');
-  blitz::Array<uint8_t,1> read_data = input->read<uint8_t,1>(0);
+  blitz::Array<uint8_t,1> read_data(input->read<uint8_t,1>(0));
 
   // Does not compile at the moment
-  blitz::Array<uint16_t,1> read_data_2 = input->cast<uint16_t,1>(0);
+  blitz::Array<uint16_t,1> read_data_2(input->cast<uint16_t,1>(0));
 
   input.reset();
 
   if (blitz::any(test_data - read_data))
+    throw std::runtime_error("The CSV IO test did not succeed");
+
+  if (blitz::any(test_data - read_data_2))
     throw std::runtime_error("The CSV IO test did not succeed");
 
   Py_RETURN_NONE;
