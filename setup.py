@@ -227,6 +227,20 @@ setup(
         packages = packages,
         boost_modules = boost_modules,
       ),
+
+      Extension("bob.io.base._test",
+        [
+          "bob/io/base/test.cpp",
+        ],
+        library_dirs = library_dirs,
+        libraries = libraries,
+        define_macros = define_macros,
+        system_include_dirs = system_include_dirs,
+        version = version,
+        bob_packages = bob_packages,
+        packages = packages,
+        boost_modules = boost_modules,
+      ),
     ],
 
     cmdclass = {
