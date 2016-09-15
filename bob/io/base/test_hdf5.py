@@ -60,6 +60,18 @@ def read_write_array_check(outfile, dtype):
     arrays.append(nparray)
   read_write_check(outfile, dtype.__name__ + '_array', arrays)
 
+def read_write_subarray_check(outfile, dtype):
+  N = 10
+  SHAPE = (2, 3, 4, 2) #48 elements in arrays
+  arrays = []
+  for k in range(N):
+    data = [random.uniform(0,N) for z in range(numpy.product(SHAPE))]
+    nparray = numpy.array(data, dtype=dtype).reshape(SHAPE)
+    usearray = nparray[:,1,1:2,:]
+    assert not usearray.flags.contiguous
+    arrays.append(usearray)
+  read_write_check(outfile, dtype.__name__ + '_subarray', arrays)
+
 def test_can_create():
 
   # This test demonstrates how to create HDF5 files from scratch,
@@ -189,6 +201,21 @@ def test_type_support():
     read_write_array_check(outfile, numpy.complex64)
     read_write_array_check(outfile, numpy.complex128)
     #read_write_array_check(outfile, numpy.complex256) #no numpy conversion
+
+    read_write_subarray_check(outfile, numpy.int8)
+    read_write_subarray_check(outfile, numpy.int16)
+    read_write_subarray_check(outfile, numpy.int32)
+    read_write_subarray_check(outfile, numpy.int64)
+    read_write_subarray_check(outfile, numpy.uint8)
+    read_write_subarray_check(outfile, numpy.uint16)
+    read_write_subarray_check(outfile, numpy.uint32)
+    read_write_subarray_check(outfile, numpy.uint64)
+    read_write_subarray_check(outfile, numpy.float32)
+    read_write_subarray_check(outfile, numpy.float64)
+    #read_write_subarray_check(outfile, numpy.float128) #no numpy conversion
+    read_write_subarray_check(outfile, numpy.complex64)
+    read_write_subarray_check(outfile, numpy.complex128)
+    #read_write_subarray_check(outfile, numpy.complex256) #no numpy conversion
 
   finally:
     os.unlink(tmpname)
