@@ -1,4 +1,5 @@
 # import Libraries of other lib packages
+import numpy
 import bob.core
 
 # import our own Library
@@ -176,6 +177,9 @@ def save(array, filename, create_directories = False):
   if create_directories:
     create_directories_safe(os.path.dirname(filename))
 
+  # requires data is c-contiguous and aligned, will create a copy otherwise
+  array = numpy.require(array, requirements=('C_CONTIGUOUS', 'ALIGNED'))
+
   return File(filename, 'w').write(array)
 
 # Just to make it homogenous with the C++ API
@@ -204,6 +208,10 @@ def append(array, filename):
   ``position`` : int
     See :py:meth:`File.append`
   """
+
+  # requires data is c-contiguous and aligned, will create a copy otherwise
+  array = numpy.require(array, requirements=('C_CONTIGUOUS', 'ALIGNED'))
+
   return File(filename, 'a').append(array)
 
 def peek(filename):

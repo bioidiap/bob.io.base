@@ -208,6 +208,7 @@ def test_hdf5():
   array_readwrite(".h5", a2)
   array_readwrite('.h5', a3)
   array_readwrite(".h5", a4)
+  array_readwrite('.h5', a3[:,::2,::2,::2]) #test non-contiguous
 
   # arrayset writing tests
   a1 = []
@@ -274,6 +275,7 @@ def test_tensorfile():
   array_readwrite('.tensor', a1)
   array_readwrite(".tensor", a2)
   array_readwrite(".tensor", a3)
+  array_readwrite('.tensor', a3[::2,::2]) #test non-contiguous
 
   # arrayset writing tests
   a1 = []
@@ -302,6 +304,7 @@ def test_csv():
   array_readwrite('.csv', a1, close=True)
   array_readwrite(".csv", a2, close=True)
   array_readwrite('.csv', a3, close=True)
+  array_readwrite('.csv', a3[::2,::2], close=True) #test non-contiguous
 
   # arrayset writing tests
   a1 = []
