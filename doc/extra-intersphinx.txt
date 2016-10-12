@@ -1,0 +1,5 @@
+scipy
+bob.io.audio
+bob.io.image
+bob.io.video
+bob.io.matlab

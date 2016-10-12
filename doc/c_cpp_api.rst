@@ -93,23 +93,23 @@ Bob File Support
 
 .. cpp:type:: PyBobIoFileObject
 
-   The pythonic object representation for a ``bob::io::File`` object.
+   The pythonic object representation for a ``bob::io::base::File`` object.
 
    .. code-block:: cpp
 
       typedef struct {
         PyObject_HEAD
-        boost::shared_ptr<bob::io::File> f;
+        boost::shared_ptr<bob::io::base::File> f;
       } PyBobIoFileObject;
 
-   .. cpp:member:: boost::shared_ptr<bob::io::File> f
+   .. cpp:member:: boost::shared_ptr<bob::io::base::File> f
 
       A pointer to a file being read or written.
 
 .. cpp:type:: PyBobIoFileIteratorObject
 
-   The pythonic object representation for an iterator over a ``bob::io::File``
-   object.
+   The pythonic object representation for an iterator over a
+   ``bob::io::base::File`` object.
 
    .. code-block:: cpp
 
