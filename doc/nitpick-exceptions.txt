@@ -16,7 +16,7 @@ cpp:type bob::io::base::File
 cpp:type bob::io::base::HDF5File
 
 # exceptions are not found in python 2.7
-py:exc ValueError
+py:exc RuntimeError
 
 # these don't exists on numpy's manual
 py:class numpy.uint8
