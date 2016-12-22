@@ -1,6 +1,8 @@
 # these are actually c types
 cpp:type PyObject
 cpp:type Py_ssize_t
+cpp:typeOrConcept PyObject
+cpp:typeOrConcept Py_ssize_t
 
 # no reference exists for these
 cpp:type bob
@@ -14,6 +16,17 @@ cpp:type bob::io
 cpp:type bob::io::base
 cpp:type bob::io::base::File
 cpp:type bob::io::base::HDF5File
+cpp:typeOrConcept bob
+cpp:typeOrConcept bob::core
+cpp:typeOrConcept bob::core::array
+cpp:typeOrConcept bob::core::array::typeinfo
+cpp:typeOrConcept bob::core::array::ElementType
+cpp:typeOrConcept boost
+cpp:typeOrConcept boost::shared_ptr
+cpp:typeOrConcept bob::io
+cpp:typeOrConcept bob::io::base
+cpp:typeOrConcept bob::io::base::File
+cpp:typeOrConcept bob::io::base::HDF5File
 
 # exceptions are not found in python 2.7
 py:exc RuntimeError
