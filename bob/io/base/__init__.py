@@ -33,6 +33,12 @@ class HDF5File(HDF5File_C):
   def __exit__(self, type, value, traceback):
     self.close()
 
+  def __contains__(self, x):
+    """Since .has_key() is deprecated, implement the ``in`` operator to avoid
+    PEP8 W601.
+    """
+    return self.has_key(x)
+
 
 def _is_string(s):
   """Returns ``True`` if the given object is a string
@@ -44,7 +50,8 @@ def _is_string(s):
   from sys import version_info
 
   return (version_info[0] < 3 and isinstance(s, (str, unicode))) or \
-    isinstance(s, (bytes, str))
+      isinstance(s, (bytes, str))
+
 
 def create_directories_safe(directory, dryrun=False):
   """Creates a directory if it does not exists, with concurrent access support.
@@ -64,9 +71,10 @@ def create_directories_safe(directory, dryrun=False):
     if dryrun:
       print("[dry-run] mkdir -p '%s'" % directory)
     else:
-      if directory and not os.path.exists(directory): os.makedirs(directory)
+      if directory and not os.path.exists(directory):
+        os.makedirs(directory)
 
-  except OSError as exc: # Python >2.5
+  except OSError as exc:  # Python >2.5
     import errno
     if exc.errno != errno.EEXIST:
       raise
@@ -117,10 +125,15 @@ def load(inputs):
       elif isinstance(obj, File):
         retval.append(obj.read())
       else:
-        raise TypeError("Iterable contains an object which is not a filename nor a bob.io.base.File.")
+        raise TypeError(
+            "Iterable contains an object which is not a filename nor a "
+            "bob.io.base.File.")
     return numpy.vstack(retval)
   else:
-    raise TypeError("Unexpected input object. This function is expecting a filename, or an iterable of filenames and/or bob.io.base.File's")
+    raise TypeError(
+        "Unexpected input object. This function is expecting a filename, "
+        "or an iterable of filenames and/or bob.io.base.File's")
+
 
 def merge(filenames):
   """merge(filenames) -> files
@@ -153,9 +166,12 @@ def merge(filenames):
   elif isinstance(filenames, Iterable):
     return [File(k, 'r') for k in filenames]
   else:
-    raise TypeError("Unexpected input object. This function is expecting an iterable of filenames.")
+    raise TypeError(
+        "Unexpected input object. This function is expecting an "
+        "iterable of filenames.")
 
-def save(array, filename, create_directories = False):
+
+def save(array, filename, create_directories=False):
   """Saves the contents of an array-like object to file.
 
   Effectively, this is the same as creating a :py:class:`File` object
@@ -171,7 +187,9 @@ def save(array, filename, create_directories = False):
     The name of the file where you need the contents saved to
 
   ``create_directories`` : bool
-    Automatically generate the directories if required (defaults to ``False`` because of compatibility reasons; might change in future to default to ``True``)
+    Automatically generate the directories if required (defaults to ``False``
+    because of compatibility reasons; might change in future to default to
+    ``True``)
   """
   # create directory if not existent yet
   if create_directories:
@@ -185,6 +203,7 @@ def save(array, filename, create_directories = False):
 # Just to make it homogenous with the C++ API
 write = save
 read = load
+
 
 def append(array, filename):
   """append(array, filename) -> position
@@ -214,6 +233,7 @@ def append(array, filename):
 
   return File(filename, 'a').append(array)
 
+
 def peek(filename):
   """peek(filename) -> dtype, shape, stride
 
@@ -233,6 +253,7 @@ def peek(filename):
   ``dtype, shape, stride`` : see :py:meth:`File.describe`
   """
   return File(filename, 'r').describe()
+
 
 def peek_all(filename):
   """peek_all(filename) -> dtype, shape, stride
@@ -254,8 +275,10 @@ def peek_all(filename):
   """
   return File(filename, 'r').describe(all=True)
 
+
 # Keeps compatibility with the previously existing API
 open = File
+
 
 def get_config():
   """Returns a string containing the configuration information.
@@ -267,14 +290,18 @@ def get_include_directories():
   """get_include_directories() -> includes
 
   Returns a list of include directories for dependent libraries, such as HDF5.
-  This function is automatically used by :py:func:`bob.extension.get_bob_libraries` to retrieve the non-standard include directories that are required to use the C bindings of this library in dependent classes.
-  You shouldn't normally need to call this function by hand.
+  This function is automatically used by
+  :py:func:`bob.extension.get_bob_libraries` to retrieve the non-standard
+  include directories that are required to use the C bindings of this library
+  in dependent classes. You shouldn't normally need to call this function by
+  hand.
 
   **Returns:**
 
   ``includes`` : [str]
-    The list of non-standard include directories required to use the C bindings of this class.
-    For now, only the directory for the HDF5 headers are returned.
+    The list of non-standard include directories required to use the C bindings
+    of this class. For now, only the directory for the HDF5 headers are
+    returned.
   """
   # try to use pkg_config first
   try:
@@ -283,7 +310,9 @@ def get_include_directories():
     header = 'hdf5.h'
     candidates = find_header(header)
     if not candidates:
-      raise RuntimeError("could not find %s's `%s' - have you installed %s on this machine?" % ('hdf5', header, 'hdf5'))
+      raise RuntimeError(
+          "could not find %s's `%s' - have you installed %s on this "
+          "machine?" % ('hdf5', header, 'hdf5'))
 
     return [os.path.dirname(candidates[0])]
   except RuntimeError:
@@ -295,19 +324,21 @@ def get_include_directories():
 def get_macros():
   """get_macros() -> macros
 
-  Returns a list of preprocessor macros, such as ``(HAVE_HDF5, 1)``.
-  This function is automatically used by :py:func:`bob.extension.get_bob_libraries` to retrieve the prerpocessor definitions that are required to use the C bindings of this library in dependent classes.
-  You shouldn't normally need to call this function by hand.
+  Returns a list of preprocessor macros, such as ``(HAVE_HDF5, 1)``. This
+  function is automatically used by :py:func:`bob.extension.get_bob_libraries`
+  to retrieve the prerpocessor definitions that are required to use the C
+  bindings of this library in dependent classes. You shouldn't normally need to
+  call this function by hand.
 
   **Returns:**
 
   ``macros`` : [(str,str)]
-    The list of preprocessor macros required to use the C bindings of this class.
-    For now, only ``('HAVE_HDF5', '1')`` is returned, when applicable.
+    The list of preprocessor macros required to use the C bindings of this
+    class. For now, only ``('HAVE_HDF5', '1')`` is returned, when applicable.
   """
   # get include directories
   if get_include_directories():
-    return [('HAVE_HDF5','1')]
+    return [('HAVE_HDF5', '1')]
 
 
 # gets sphinx autodoc done right - don't remove it
