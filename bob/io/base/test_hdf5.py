@@ -477,6 +477,7 @@ def test_copy_constructor():
 
     assert shallow.has_group("/Test")
     assert shallow.has_key("/Test/Data")
+    assert "/Test/Data" in shallow
     assert hdf5.filename == shallow.filename
     assert hdf5.keys() == shallow.keys()
     assert hdf5.cwd == shallow.cwd
