@@ -301,7 +301,8 @@ static auto s_has_dataset = bob::extension::FunctionDoc(
   "Checks if a dataset exists inside a file",
   "Checks if a dataset exists inside a file, on the specified path. "
   "If the given path is relative, it is take w.r.t. to the current working directory.\n\n"
-  ".. note:: The functions :py:meth:`has_dataset` and :py:meth:`has_key` are synonyms.",
+  ".. note:: The functions :py:meth:`has_dataset` and :py:meth:`has_key` are synonyms. "
+  "You can also use the Python's ``in`` operator instead of :py:meth:`has_key`: ``key in hdf5file``.",
   true
 )
 .add_prototype("key")
