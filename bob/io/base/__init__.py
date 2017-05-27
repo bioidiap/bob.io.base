@@ -39,6 +39,9 @@ class HDF5File(HDF5File_C):
     """
     return self.has_key(x)
 
+  def __iter__(self):
+    return iter(self.keys())
+
 
 def _is_string(s):
   """Returns ``True`` if the given object is a string
