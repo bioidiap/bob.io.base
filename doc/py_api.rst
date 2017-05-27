@@ -46,8 +46,8 @@ Please note that this is not part of the default ``bob.io.base`` API, so in orde
 Details
 -------
 
-.. automodule::
-   bob.io.base
+.. automodule:: bob.io.base
+   :inherited-members:
 
-.. automodule::
-   bob.io.base.test_utils
+
+.. automodule:: bob.io.base.test_utils
