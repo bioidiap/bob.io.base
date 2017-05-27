@@ -49,5 +49,4 @@ Details
 .. automodule:: bob.io.base
    :inherited-members:
 
-
 .. automodule:: bob.io.base.test_utils

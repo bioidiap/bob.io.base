@@ -157,9 +157,9 @@ is an example:
   >>> A = numpy.array(range(4), 'int8').reshape(2,2)
   >>> f = bob.io.base.HDF5File('testfile1.hdf5', 'a')
   >>> f.set('my_array', A)
-  >>> del f
+  >>> f.close()
 
-The result of running ``h5dump`` on the file ``testfile3.hdf5`` should be:
+The result of running ``h5dump`` on the file ``testfile1.hdf5`` should be:
 
 .. code-block:: none
 
@@ -261,22 +261,48 @@ would return a 1D uint8 array instead of a 2D array.
 Pythonic operations on HDF5 files
 ---------------------------------
 
-You can use some Pythonic opertations on :py:class:`bob.io.base.HDF5File`.
-You can iterate over :py:class:`bob.io.base.HDF5File` objects to get an
-iterable of keys instead of calling
-:py:meth:`bob.io.base.HDF5File.keys`. You can also use the ``in`` keyword
-instead of calling :py:meth:`bob.io.base.HDF5File.has_key`. For example:
+You can use some Pythonic opertations on :py:class:`bob.io.base.HDF5File`:
+
+* Use the ``with`` statement to open (and automatically close) HDF5 files.
+* iterate over :py:class:`bob.io.base.HDF5File` objects to get an
+  iterable of keys instead of calling :py:meth:`bob.io.base.HDF5File.keys`.
+* use the ``in`` keyword instead of calling
+  :py:meth:`bob.io.base.HDF5File.has_key`.
+* use Python's dictionary syntax instead of :py:meth:`bob.io.base.HDF5File.set`
+  and :py:meth:`bob.io.base.HDF5File.get`.
+
+For example:
+
 
 .. doctest::
 
-  >>> keys = f.keys() # Get a list of keys
-  >>> keys == [key for key in f] # instead you can also iterate over keys
+  >>> f = bob.io.base.HDF5File('testfile3.hdf5', 'w')
+  >>> array = numpy.arange(5)
+  >>> f['my_array'] = array # f.set('my_array', array)
+  >>> f['my_array'] # f.get('my_array')
+  array([0, 1, 2, 3, 4])
+  >>> 'my_array' in f # f.has_key('my_array')
   True
-  >>> f.has_key('arrayset')
+  >>> [key for key in f] # f.keys()
+  ['/my_array']
+  >>> f.create_group('group1')
+  >>> f.cd('group1')
+  >>> f['my_array_in_group'] = array
+  >>> f.cd('/')
+  >>> # keys(), values(), and items() just like a dictionary
+  >>> [key for key in f.keys()]
+  ['/my_array', '/group1/my_array_in_group']
+  >>> [value for value in f.values()]
+  [array([0, 1, 2, 3, 4]), array([0, 1, 2, 3, 4])]
+  >>> [(key, value) for key, value in f.items()]
+  [('/my_array', array([0, 1, 2, 3, 4])), ('/group1/my_array_in_group', array([0, 1, 2, 3, 4]))]
+  >>> f.close()
+  >>> # using a with statement to open and close files
+  >>> with bob.io.base.HDF5File('testfile3.hdf5', 'a') as f:
+  ...   f['second_array'] = array
+  >>> f = bob.io.base.HDF5File('testfile3.hdf5', 'r')
+  >>> 'second_array' in f
   True
-  >>> 'arrayset' in f # you can use the `in` operator instead of `has_key`
-  True
-
 
 Array interfaces
 ----------------
@@ -356,35 +382,6 @@ the :py:class:`bob.io.base.File` container:
   the read and write operations. Have a look at the manual section for
   :py:mod:`bob.io.base` for more details and other shortcuts available.
 
-.. _audiosignal:
-
-Loading and saving audio files
-------------------------------
-
-|project| does not yet support audio files (no wav codec). However, it is
-possible to use the `SciPy`_ module :py:mod:`scipy.io.wavfile` to do the job.
-For instance, to read a wave file, just use the
-:py:func:`scipy.io.wavfile.read` function.
-
-.. code-block:: python
-
-   >>> import scipy.io.wavfile
-   >>> filename = '/home/user/sample.wav'
-   >>> samplerate, data = scipy.io.wavfile.read(filename)
-   >>> print(type(data))
-   <... 'numpy.ndarray'>
-   >>> print(data.shape)
-   (132474, 2)
-
-In the above example, the stereo audio signal is represented as a 2D `NumPy`
-:py:class:`numpy.ndarray`. The first dimension corresponds to the time index
-(132474 frames) and the second dimesnion correpsonds to one of the audio
-channel (2 channels, stereo). The values in the array correpsond to the wave
-magnitudes.
-
-To save a `NumPy` :py:class:`numpy.ndarray` into a wave file, the
-:py:func:`scipy.io.wavfile.write` could be used, which also requires the
-framerate to be specified.
 
 .. Place here your external references
 .. include:: links.rst

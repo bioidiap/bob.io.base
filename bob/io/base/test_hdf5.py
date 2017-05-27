@@ -477,10 +477,8 @@ def test_copy_constructor():
 
     assert shallow.has_group("/Test")
     assert shallow.has_key("/Test/Data")
-    assert "/Test/Data" in shallow
     assert hdf5.filename == shallow.filename
     assert hdf5.keys() == shallow.keys()
-    assert [key for key in hdf5] == shallow.keys()
     assert hdf5.cwd == shallow.cwd
 
     assert not deep.has_group("/Test")
@@ -512,3 +510,23 @@ def test_copy_constructor():
   finally:
     os.unlink(tmpname)
     os.unlink(tmpname2)
+
+
+def test_python_interfaces():
+  try:
+    tmpname = test_utils.temporary_filename()
+    with HDF5File(tmpname, 'w') as hdf5:
+      a = numpy.arange(10)
+      b = a * 2
+      hdf5['Data'] = a
+      hdf5.create_group('Group1')
+      hdf5['Group1/Data'] = b
+      assert "/Group1/Data" in hdf5
+      assert [key for key in hdf5] == hdf5.keys()
+      assert numpy.allclose(hdf5['Data'], hdf5.get('Data'))
+      assert all(numpy.allclose(c, d) for c, d in zip(hdf5.values(), (a, b)))
+      for key, value in hdf5.items():
+        assert numpy.allclose(value, hdf5[key])
+
+  finally:
+    os.unlink(tmpname)
