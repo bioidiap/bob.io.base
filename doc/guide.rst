@@ -257,6 +257,27 @@ the variable `my_array` as an arrayset using
 :py:meth:`bob.io.base.HDF5File.read`. In this case, each position readout
 would return a 1D uint8 array instead of a 2D array.
 
+
+Pythonic operations on HDF5 files
+---------------------------------
+
+You can use some Pythonic opertations on :py:class:`bob.io.base.HDF5File`.
+You can iterate over :py:class:`bob.io.base.HDF5File` objects to get an
+iterable of keys instead of calling
+:py:meth:`bob.io.base.HDF5File.keys`. You can also use the ``in`` keyword
+instead of calling :py:meth:`bob.io.base.HDF5File.has_key`. For example:
+
+.. doctest::
+
+  >>> keys = f.keys() # Get a list of keys
+  >>> keys == [key for key in f] # instead you can also iterate over keys
+  True
+  >>> f.has_key('arrayset')
+  True
+  >>> 'arrayset' in f # you can use the `in` operator instead of `has_key`
+  True
+
+
 Array interfaces
 ----------------
 
