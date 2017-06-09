@@ -446,13 +446,13 @@ static auto s_describe = bob::extension::FunctionDoc(
   "describe",
   "Describes a dataset type/shape, if it exists inside a file",
   "If a given ``key`` to an HDF5 dataset exists inside the file, returns a type description of objects recorded in such a dataset, otherwise, raises an exception. "
-  "The returned value type is a tuple of tuples (HDF5Type, number-of-objects, expandable) describing the capabilities if the file is read using these formats. \n\n"
-  ".. todo:: Check and correct the returned values",
+  "The returned value type is a list of tuples (HDF5Type, number-of-objects, expandable) describing the capabilities if the file is read using these formats. \n\n",
   true
 )
-.add_prototype("key", "shape, size, expandable")
+.add_prototype("key", "[(hdf5type, size, expandable)]")
 .add_parameter("key", "str", "The dataset path to describe")
-.add_return("shape", "tuple", "The shape of the returned array")
+.add_return("hdf5type", "tuple", "The HDF5Type of the returned array")
+.add_return("size", "int", "The number of objects in the dataset")
 .add_return("expandable", "bool", "Defines if this object can be resized.")
 ;
 static PyObject* PyBobIoHDF5File_describe(PyBobIoHDF5FileObject* self, PyObject *args, PyObject* kwds) {
