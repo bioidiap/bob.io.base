@@ -7,6 +7,7 @@
  Bob's Core I/O Routines
 =========================
 
+This package is a part of `Bob`_.
 This module contains a basic interface to read and write files of various
 types.  It provides generic functions :py:func:`bob.io.base.save` and
 :py:func:`bob.io.base.load` to write and read various types of data.  In this

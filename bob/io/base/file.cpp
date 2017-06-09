@@ -464,6 +464,7 @@ static auto s_describe = bob::extension::FunctionDoc(
 .add_parameter("all", "bool", "[Default: ``False``]  If set to ``True``, returns the shape and strides for reading the whole file contents in one shot.")
 .add_return("dtype", ":py:class:`numpy.dtype`", "The data type of the object")
 .add_return("shape", "tuple", "The shape of the object")
+.add_return("stride", "tuple", "The stride of the object")
 ;
 static PyObject* PyBobIoFile_describe(PyBobIoFileObject* self, PyObject *args, PyObject* kwds) {
 BOB_TRY

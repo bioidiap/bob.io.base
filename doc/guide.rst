@@ -48,7 +48,7 @@ I/O operations using the class `bob.io.base.HDF5File`
 ------------------------------------------------------
 
 Writing operations
-------------------
+~~~~~~~~~~~~~~~~~~
 
 Let's take a look at how to write simple scalar data such as integers or
 floats.
@@ -179,7 +179,7 @@ of scalars and arrays using the function :py:meth:`bob.io.base.HDF5File.append`
 instead of :py:meth:`bob.io.base.HDF5File.set`.
 
 Reading operations
-------------------
+~~~~~~~~~~~~~~~~~~
 
 Reading data from a file that you just wrote to is just as easy. For this task
 you should use :py:meth:`bob.io.base.HDF5File.read`. The read method will read
@@ -259,7 +259,7 @@ would return a 1D uint8 array instead of a 2D array.
 
 
 Pythonic operations on HDF5 files
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use some Pythonic opertations on :py:class:`bob.io.base.HDF5File`:
 
