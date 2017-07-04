@@ -13,8 +13,6 @@
    :target: https://gitlab.idiap.ch/bob/bob.io.base
 .. image:: http://img.shields.io/pypi/v/bob.io.base.svg
    :target: https://pypi.python.org/pypi/bob.io.base
-.. image:: http://img.shields.io/pypi/dm/bob.io.base.svg
-   :target: https://pypi.python.org/pypi/bob.io.base
 
 
 =========================================
