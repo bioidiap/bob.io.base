@@ -69,23 +69,26 @@ Generic Functions
    described above in case of success.
 
 
-.. cpp:function:: int PyBobIo_FilenameConverter (PyObject* o, PyObject** b)
+.. cpp:function:: int PyBobIo_FilenameConverter (PyObject* o, const char** b)
 
    This function is meant to be used with :c:func:`PyArg_ParseTupleAndKeywords`
    family of functions in the Python C-API. It converts an arbitrary input
-   object into a ``PyStringObject`` (in Python2.x) and into a ``PyBytesObject``
-   (in Python3.x). If the input object is of type ``PyUnicodeObject``, which is
-   the default in Python3.x, the unicode code is properly decoded using
-   :c:func:`PyUnicode_AsEncodedString` with ``encoding`` set to
-   ``Py_FileSystemDefaultEncoding`` and ``errors`` set to ``"strict"``. On
-   versions of Python >= 3.2, this is just an alias for
-   :c:func:`PyUnicode_FSConverter`, which does a similar job.
+   object into a ``const char*`` If the input object is of type
+   ``PyUnicodeObject`` (which is the default in Python3.x) the unicode code is
+   properly decoded using :c:func:`PyUnicode_AsEncodedString` with ``encoding``
+   set to ``Py_FileSystemDefaultEncoding`` and ``errors`` set to ``"strict"``.
 
-   Objects which are not ``PyUnicodeObject`` are coerced into a bytes/string
-   object using :c:func:`PyObject_Bytes` (on Python3.x) and
-   :c:func:`PyObject_Str` (on Python 2.x).
+   Objects which are not ``PyUnicodeObject`` are first coerced into a
+   bytes/string before converting to the ``const char*`` object using
+   :c:func:`PyObject_Bytes` (on Python3.x) and :c:func:`PyObject_Str`
+   (on Python 2.x).
 
    Returns 0 if an error is detected, 1 on success.
+
+   .. note::
+      Since version 2.2, this function converts into ``const char*`` directly.
+      Before version 2.2, it was returning either ``PyBytesObject`` (Python 3)
+      or ``PyStringObject`` (Python 2).
 
 
 Bob File Support
