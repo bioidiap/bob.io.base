@@ -530,3 +530,8 @@ def test_python_interfaces():
 
   finally:
     os.unlink(tmpname)
+
+def unicode_test():
+  filename = test_utils.datafile(u"Φîłèñäϻæ.hdf5", __name__)
+  hdf5 = HDF5File(filename)
+  assert numpy.allclose(hdf5["Test"], range(10))
