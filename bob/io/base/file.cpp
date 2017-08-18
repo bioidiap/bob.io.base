@@ -67,34 +67,35 @@ static void PyBobIoFile_Delete (PyBobIoFileObject* o) {
 
 }
 
-int PyBobIo_FilenameConverter (PyObject* o, PyObject** b) {
-#if PY_VERSION_HEX >= 0x03020000
-  if (!PyUnicode_FSConverter(o, b)) return 0;
+int PyBobIo_FilenameConverter (PyObject* o, const char** b) {
+#if PY_VERSION_HEX >= 0x03000000
+  if (PyUnicode_Check(o)) {
+    *b = PyUnicode_AsUTF8(o);
+  } else {
+    PyObject* temp = PyObject_Bytes(o);
+    auto temp_ = make_safe(temp);
+    *b = PyBytes_AsString(temp);
+  }
 #else
   if (PyUnicode_Check(o)) {
-    *b = PyUnicode_AsEncodedString(o, Py_FileSystemDefaultEncoding, "strict");
+    PyObject* temp = PyUnicode_AsEncodedString(o, Py_FileSystemDefaultEncoding, "strict");
+    auto temp_ = make_safe(temp);
+    *b = PyString_AsString(temp);
+  } else {
+    *b = PyString_AsString(o);
   }
-  else {
-#if PY_VERSION_HEX >= 0x03000000
-    *b = PyObject_Bytes(o);
-#else
-    *b = PyObject_Str(o);
 #endif
-  }
-  if (!b) return 0;
-#endif
-  return 1;
+  return b != 0;
 }
 
 /* The __init__(self) method */
 static int PyBobIoFile_init(PyBobIoFileObject* self, PyObject *args, PyObject* kwds) {
-  const char* c_filename = 0;
 BOB_TRY
   /* Parses input arguments in a single shot */
   static char** kwlist = s_file.kwlist();
 
-  PyObject* filename = 0;
-  char* pretend_extension = 0;
+  const char* filename;
+  const char* pretend_extension = 0;
 
 #if PY_VERSION_HEX >= 0x03000000
 #  define MODE_CHAR "C"
@@ -109,28 +110,20 @@ BOB_TRY
 
 #undef MODE_CHAR
 
-  auto filename_ = make_safe(filename);
-
   if (mode != 'r' && mode != 'w' && mode != 'a') {
     PyErr_Format(PyExc_ValueError, "file open mode string should have 1 element and be either 'r' (read), 'w' (write) or 'a' (append)");
     return -1;
   }
 
-#if PY_VERSION_HEX >= 0x03000000
-  c_filename = PyBytes_AS_STRING(filename);
-#else
-  c_filename = PyString_AS_STRING(filename);
-#endif
-
   if (pretend_extension) {
-    self->f = bob::io::base::open(c_filename, mode, pretend_extension);
+    self->f = bob::io::base::open(filename, mode, pretend_extension);
   }
   else {
-    self->f = bob::io::base::open(c_filename, mode);
+    self->f = bob::io::base::open(filename, mode);
   }
 
   return 0; ///< SUCCESS
-BOB_CATCH_MEMBER(c_filename, -1);
+BOB_CATCH_MEMBER("constructor", -1);
 }
 
 static PyObject* PyBobIoFile_repr(PyBobIoFileObject* self) {
