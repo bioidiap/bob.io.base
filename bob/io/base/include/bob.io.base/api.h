@@ -92,7 +92,7 @@ typedef struct {
 #define PyBobIo_TypeInfoAsTuple_PROTO (const bob::io::base::array::typeinfo& ti)
 
 #define PyBobIo_FilenameConverter_RET int
-#define PyBobIo_FilenameConverter_PROTO (PyObject* o, PyObject** b)
+#define PyBobIo_FilenameConverter_PROTO (PyObject* o, const char** b)
 
 /*****************
  * HDF5 bindings *

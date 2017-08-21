@@ -137,14 +137,12 @@ BOB_TRY
   char mode = 'r';
 #endif
 
-  PyObject* filename = 0;
+  const char* filename;
   if (!PyArg_ParseTupleAndKeywords(args, kwds, "O&|" MODE_CHAR, kwlist1,
         &PyBobIo_FilenameConverter, &filename, &mode))
     return -1;
 
 #undef MODE_CHAR
-
-  auto filename_ = make_safe(filename);
 
   if (mode != 'r' && mode != 'w' && mode != 'a' && mode != 'x') {
     PyErr_Format(PyExc_ValueError, "file open mode string should have 1 element and be either 'r' (read), 'w' (write), 'a' (append), 'x' (exclusive)");
@@ -153,13 +151,7 @@ BOB_TRY
   bob::io::base::HDF5File::mode_t mode_mode = mode_from_char(mode);
   if (PyErr_Occurred()) return -1;
 
-#if PY_VERSION_HEX >= 0x03000000
-  const char* c_filename = PyBytes_AS_STRING(filename);
-#else
-  const char* c_filename = PyString_AS_STRING(filename);
-#endif
-
-  self->f.reset(new bob::io::base::HDF5File(c_filename, mode_mode));
+  self->f.reset(new bob::io::base::HDF5File(filename, mode_mode));
   return 0; ///< SUCCESS
 BOB_CATCH_MEMBER("hdf5 constructor", -1)
 }
