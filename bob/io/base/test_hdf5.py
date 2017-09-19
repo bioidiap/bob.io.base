@@ -532,7 +532,7 @@ def test_python_interfaces():
     os.unlink(tmpname)
 
 def unicode_test():
-  filename = test_utils.datafile(u"Φîłèñäϻæ.hdf5", __name__)
+  filename = u"Φîłèñäϻæ.hdf5"
 
   # writing using unicode filename
   hdf5 = HDF5File(filename, 'w')
