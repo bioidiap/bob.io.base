@@ -533,5 +533,14 @@ def test_python_interfaces():
 
 def unicode_test():
   filename = test_utils.datafile(u"Φîłèñäϻæ.hdf5", __name__)
+
+  # writing using unicode filename
+  hdf5 = HDF5File(filename, 'w')
+  hdf5.set('Test', range(10))
+  del hdf5
+
+  # writing using unicode filename
   hdf5 = HDF5File(filename)
   assert numpy.allclose(hdf5["Test"], range(10))
+  os.remove(filename)
+
