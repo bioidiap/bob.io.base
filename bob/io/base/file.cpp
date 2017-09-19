@@ -73,12 +73,14 @@ int PyBobIo_FilenameConverter (PyObject* o, const char** b) {
     *b = PyUnicode_AsUTF8(o);
   } else {
     PyObject* temp = PyObject_Bytes(o);
+    if (!temp) return 0;
     auto temp_ = make_safe(temp);
     *b = PyBytes_AsString(temp);
   }
 #else
   if (PyUnicode_Check(o)) {
     PyObject* temp = PyUnicode_AsEncodedString(o, Py_FileSystemDefaultEncoding, "strict");
+    if (!temp) return 0;
     auto temp_ = make_safe(temp);
     *b = PyString_AsString(temp);
   } else {
