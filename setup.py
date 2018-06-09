@@ -20,7 +20,6 @@ version = open("version.txt").read().rstrip()
 packages = ['boost']
 boost_modules = ['system', 'filesystem']
 
-import os
 def libhdf5_version(header):
 
   vv = egrep(header, r"#\s*define\s+H5_VERSION\s+\"([\d\.]+)\"")
@@ -29,23 +28,13 @@ def libhdf5_version(header):
 
 class hdf5:
 
-  def __init__ (self, requirement='', only_static=False):
+  def __init__ (self):
     """
     Searches for libhdf5 in stock locations. Allows user to override.
 
     If the user sets the environment variable BOB_PREFIX_PATH, that prefixes
     the standard path locations.
 
-    Parameters:
-
-    requirement, str
-      A string, indicating a version requirement for this library. For example,
-      ``'>= 8.2'``.
-
-    only_static, boolean
-      A flag, that indicates if we intend to link against the static library
-      only. This will trigger our library search to disconsider shared
-      libraries when searching.
     """
     import os
 
@@ -61,38 +50,10 @@ class hdf5:
       if not candidates:
         raise RuntimeError("could not find %s's `%s' - have you installed %s on this machine?" % (self.name, header, self.name))
 
-      found = False
-
-      if not requirement:
-        self.include_directories = [os.path.dirname(candidates[0])]
-        directory = os.path.dirname(candidates[0])
-        version_header = os.path.join(directory, 'H5pubconf.h')
-        self.version = libhdf5_version(version_header)
-        found = True
-
-      else:
-
-        # requirement is 'operator' 'version'
-        operator, required = [k.strip() for k in requirement.split(' ', 1)]
-
-        # now check for user requirements
-        for candidate in candidates:
-          directory = os.path.dirname(candidate)
-          version_header = os.path.join(directory, 'H5pubconf.h')
-          vv = libhdf5_version(version_header)
-          available = LooseVersion(vv)
-          if (operator == '<' and available < required) or \
-             (operator == '<=' and available <= required) or \
-             (operator == '>' and available > required) or \
-             (operator == '>=' and available >= required) or \
-             (operator == '==' and available == required):
-            self.include_directories = [os.path.dirname(candidate)]
-            self.version = vv
-            found = True
-            break
-
-      if not found:
-        raise RuntimeError("could not find the required (%s) version of %s on the file system (looked at: %s)" % (requirement, self.name, ', '.join(candidates)))
+      self.include_directories = [os.path.dirname(candidates[0])]
+      directory = os.path.dirname(candidates[0])
+      version_header = os.path.join(directory, 'H5pubconf.h')
+      self.version = libhdf5_version(version_header)
 
       # normalize
       self.include_directories = [os.path.normpath(i) for i in self.include_directories]
@@ -100,7 +61,7 @@ class hdf5:
       # find library
       prefix = os.path.dirname(os.path.dirname(self.include_directories[0]))
       module = 'hdf5'
-      candidates = find_library(module, version=self.version, prefixes=[prefix], only_static=only_static)
+      candidates = find_library(module, version=self.version, prefixes=[prefix], only_static=False)
 
       if not candidates:
         raise RuntimeError("cannot find required %s binary module `%s' - make sure libhdf5 is installed on `%s'" % (self.name, module, prefix))
@@ -129,7 +90,6 @@ class hdf5:
   def macros(self):
     return [
         ('HAVE_%s' % self.name.upper(), '1'),
-        ('%s_VERSION' % self.name.upper(), '"%s"' % self.version),
         ]
 
 
