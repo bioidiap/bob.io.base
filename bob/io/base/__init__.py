@@ -39,7 +39,7 @@ class HDF5File(_HDF5File_C):
 
   def __iter__(self):
     __doc__ = self.keys.__doc__
-    return iter(self.keys())
+    return iter(self.keys(True))
 
   def __getitem__(self, name):
     __doc__ = self.get.__doc__

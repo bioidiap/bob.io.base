@@ -522,7 +522,7 @@ def test_python_interfaces():
       hdf5.create_group('Group1')
       hdf5['Group1/Data'] = b
       assert "/Group1/Data" in hdf5
-      assert [key for key in hdf5] == hdf5.keys()
+      assert [key for key in hdf5] == hdf5.keys(True)
       assert numpy.allclose(hdf5['Data'], hdf5.get('Data'))
       assert all(numpy.allclose(c, d) for c, d in zip(hdf5.values(), (a, b)))
       for key, value in hdf5.items():
@@ -543,4 +543,3 @@ def unicode_test():
   hdf5 = HDF5File(filename)
   assert numpy.allclose(hdf5["Test"], range(10))
   os.remove(filename)
-
