@@ -283,8 +283,8 @@ For example:
   array([0, 1, 2, 3, 4])
   >>> 'my_array' in f # f.has_key('my_array')
   True
-  >>> [key for key in f] # f.keys()
-  ['/my_array']
+  >>> [key for key in f] # f.keys(relative=True)
+  ['my_array']
   >>> f.create_group('group1')
   >>> f.cd('group1')
   >>> f['my_array_in_group'] = array
@@ -295,7 +295,7 @@ For example:
   >>> [value for value in f.values()]
   [array([0, 1, 2, 3, 4]), array([0, 1, 2, 3, 4])]
   >>> [(key, value) for key, value in f.items()]
-  [('/my_array', array([0, 1, 2, 3, 4])), ('/group1/my_array_in_group', array([0, 1, 2, 3, 4]))]
+  [('my_array', array([0, 1, 2, 3, 4])), ('group1/my_array_in_group', array([0, 1, 2, 3, 4]))]
   >>> f.close()
   >>> # using a with statement to open and close files
   >>> with bob.io.base.HDF5File('testfile3.hdf5', 'a') as f:
@@ -303,6 +303,10 @@ For example:
   >>> f = bob.io.base.HDF5File('testfile3.hdf5', 'r')
   >>> 'second_array' in f
   True
+
+.. note::
+   By default, :py:meth:`bob.io.base.HDF5File.keys` will return the keys
+   absolute, while the iterators provide relative keys.
 
 Array interfaces
 ----------------
