@@ -210,10 +210,10 @@ the case when you write lists of variables to a dataset.
   >>> f.append('arrayset', numpy.array(range(10), 'float64'))
   >>> f.append('arrayset', 2*numpy.array(range(10), 'float64'))
   >>> f.append('arrayset', 3*numpy.array(range(10), 'float64'))
-  >>> print(f.lread('arrayset', 0))
-  [ 0.  1.  2.  3.  4.  5.  6.  7.  8.  9.]
-  >>> print(f.lread('arrayset', 2))
-  [  0.   3.   6.   9.  12.  15.  18.  21.  24.  27.]
+  >>> numpy.allclose((f.lread('arrayset', 0)),[ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
+  True
+  >>> numpy.allclose( (f.lread('arrayset', 2)), [  0.,   3.,   6.,   9.,  12.,  15.,  18.,  21.,  24.,  27.])
+  True
   >>> del f
 
 This is what the ``h5dump`` of the file would look like:
@@ -242,10 +242,8 @@ shot:
 .. doctest::
 
   >>> f = bob.io.base.HDF5File('testfile2.hdf5')
-  >>> print(f.read('arrayset'))
-  [[  0.   1.   2.   3.   4.   5.   6.   7.   8.   9.]
-   [  0.   2.   4.   6.   8.  10.  12.  14.  16.  18.]
-   [  0.   3.   6.   9.  12.  15.  18.  21.  24.  27.]]
+  >>> numpy.allclose((f.read('arrayset')),[[  0.,   1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.],[  0.,   2.,   4.,   6.,   8.,  10.,  12.,  14.,  16.,  18.],[  0.,   3.,   6.,   9.,  12.,  15.,  18.,  21.,  24.,  27.]])
+  True
 
 As you can see, the only difference between
 :py:meth:`bob.io.base.HDF5File.read` and
@@ -364,10 +362,8 @@ through the :py:class:`bob.io.base.File` container:
 .. doctest::
 
   >>> t = bob.io.base.load('testfile2.hdf5')
-  >>> t
-  array([[  0.,   1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.],
-         [  0.,   2.,   4.,   6.,   8.,  10.,  12.,  14.,  16.,  18.],
-         [  0.,   3.,   6.,   9.,  12.,  15.,  18.,  21.,  24.,  27.]])
+  >>> numpy.allclose(t, [[  0.,   1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.], [  0.,   2.,   4.,   6.,   8.,  10.,  12.,  14.,  16.,  18.],[  0.,   3.,   6.,   9.,  12.,  15.,  18.,  21.,  24.,  27.]])
+  True
 
 You can also directly save :py:class:`numpy.ndarray`\s without going through
 the :py:class:`bob.io.base.File` container:
