@@ -27,6 +27,7 @@ Functions
    bob.io.base.peek
    bob.io.base.peek_all
    bob.io.base.create_directories_safe
+   bob.io.base.vstack_features
 
    bob.io.base.extensions
    bob.io.base.get_config
