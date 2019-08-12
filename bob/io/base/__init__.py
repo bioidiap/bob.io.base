@@ -6,68 +6,13 @@ import bob.core
 import bob.extension
 bob.extension.load_bob_library('bob.io.base', __file__)
 
-from ._library import File as _File_C, HDF5File as _HDF5File_C, extensions
+from .hdf5 import *
+from ._library import extensions
 from . import version
 from .version import module as __version__
 from .version import api as __api_version__
 
 import os
-
-
-class File(_File_C):
-  __doc__ = _File_C.__doc__
-
-  def __enter__(self):
-    return self
-
-  def __exit__(self, type, value, traceback):
-    self.close()
-
-
-class HDF5File(_HDF5File_C):
-  __doc__ = _HDF5File_C.__doc__
-
-  def __enter__(self):
-    return self
-
-  def __exit__(self, type, value, traceback):
-    return self.close()
-
-  def __contains__(self, x):
-    __doc__ = self.has_key.__doc__
-    return self.has_key(x)
-
-  def __iter__(self):
-    __doc__ = self.keys.__doc__
-    return iter(self.keys())
-
-  def __getitem__(self, name):
-    __doc__ = self.get.__doc__
-    return self.get(name)
-
-  def __setitem__(self, name, value):
-    __doc__ = self.set.__doc__
-    return self.set(name, value)
-
-  def values(self):
-    '''Yields the datasets contained in the current directory.
-
-    Yields
-    -------
-    object
-        The datasets that are being read.
-    '''
-    return (self[key] for key in self)
-
-  def items(self):
-    '''Yields the keys and the datasets contained in the current directory.
-
-    Yields
-    -------
-    tuple
-        The key and the datasets that are being read in a tuple.
-    '''
-    return ((key, self[key]) for key in self)
 
 
 def _is_string(s):
