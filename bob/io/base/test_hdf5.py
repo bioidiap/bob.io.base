@@ -15,7 +15,6 @@ import random
 import nose.tools
 
 from . import HDF5File, load, save, peek_all, test_utils
-from .hdf5 import from_dict_to_hdf5, from_hdf5_to_dict
 
 
 def read_write_check(outfile, dname, data, dtype=None):
@@ -599,16 +598,17 @@ def test_from_dict_to_hdf5():
         input_dict["array"] = numpy.array([1, 2, 3])
         input_dict["list"] = [1, 2, 3]
         return input_dict
-
+    
     # Saving from dict
     input_dict = create_dict()
     input_dict["dict"] = create_dict()
 
     with HDF5File("test.hdf5", "w") as hdf5:
-        from_dict_to_hdf5(hdf5, input_dict)
+        hdf5.import_from_dict(input_dict)
+
 
     with HDF5File("test.hdf5") as hdf5:
-        output_dict = from_hdf5_to_dict(hdf5)
+        output_dict = hdf5.to_dict()
 
     def compare(ref_dict, comp_dict):
         assert ref_dict["number"] == comp_dict["number"]
@@ -618,3 +618,4 @@ def test_from_dict_to_hdf5():
 
     compare(input_dict, output_dict)
     compare(input_dict["dict"], output_dict["dict"])
+
