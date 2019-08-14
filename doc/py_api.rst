@@ -28,8 +28,6 @@ Functions
    bob.io.base.peek_all
    bob.io.base.create_directories_safe
    bob.io.base.vstack_features
-   bob.io.base.from_dict_to_hdf5
-   bob.io.base.from_hdf5_to_dict      
 
    bob.io.base.extensions
    bob.io.base.get_config
