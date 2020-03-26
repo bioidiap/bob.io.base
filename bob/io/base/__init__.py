@@ -83,6 +83,7 @@ def _is_string(s):
       isinstance(s, (bytes, str))
 
 
+@numpy.deprecate(new_name="os.makedirs(directory, exist_ok=True)")
 def create_directories_safe(directory, dryrun=False):
   """Creates a directory if it does not exists, with concurrent access support.
   This function will also create any parent directories that might be required.
