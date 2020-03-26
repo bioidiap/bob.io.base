@@ -97,17 +97,10 @@ def create_directories_safe(directory, dryrun=False):
   ``dryrun`` : bool
     Only ``print`` the command to console, but do not execute it.
   """
-  try:
-    if dryrun:
-      print("[dry-run] mkdir -p '%s'" % directory)
-    else:
-      if directory and not os.path.exists(directory):
-        os.makedirs(directory)
-
-  except OSError as exc:  # Python >2.5
-    import errno
-    if exc.errno != errno.EEXIST:
-      raise
+  if dryrun:
+    print("[dry-run] mkdir -p '%s'" % directory)
+  else:
+    os.makedirs(directory, exist_ok=True)
 
 
 def load(inputs):
