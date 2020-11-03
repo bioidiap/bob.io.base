@@ -18,7 +18,6 @@ packages (the list might not be exhaustive):
 * :ref:`bob.io.audio` to load and save audio data of various kinds
 * :ref:`bob.io.image` to load and save images of various kinds
 * :ref:`bob.io.video` to load and save videos of various types
-* :ref:`bob.io.matlab` to load and save matrices in basic matlab ``.mat`` files
 
 
 Documentation
