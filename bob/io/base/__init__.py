@@ -366,8 +366,8 @@ def get_macros():
 
 
 def _generate_features(reader, paths, same_size=False):
-  """Load and stack features in a memory efficient way. This function is meant
-  to be used inside :py:func:`vstack_features`.
+  """Load and stack features in a memory efficient way. This function is
+  meant to be used inside :py:func:`vstack_features`.
 
   Parameters
   ----------
@@ -404,11 +404,14 @@ def _generate_features(reader, paths, same_size=False):
         assert shape[1:] == list(feature.shape[1:])
       assert dtype == feature.dtype
 
-    for value in feature.flat:
-      yield value
+    if same_size:
+      yield (feature.ravel(),)
+    else:
+      for feat in feature:
+        yield (feat.ravel(),)
 
 
-def vstack_features(reader, paths, same_size=False):
+def vstack_features(reader, paths, same_size=False, dtype=None):
   """Stacks all features in a memory efficient way.
 
   Parameters
@@ -428,6 +431,8 @@ def vstack_features(reader, paths, same_size=False):
     If ``True``, it assumes that arrays inside all the paths are the same
     shape. If you know the features are the same size in all paths, set this
     to ``True`` to improve the performance.
+  dtype : :py:class:`numpy.dtype`, optional
+    If provided, the data will be casted to this format.
 
   Returns
   -------
@@ -437,7 +442,7 @@ def vstack_features(reader, paths, same_size=False):
   Examples
   --------
   This function in a simple way is equivalent to calling
-  ``numpy.vstack(reader(p) for p in paths)``.
+  ``numpy.vstack([reader(p) for p in paths])``.
 
   >>> import numpy
   >>> from bob.io.base import vstack_features
@@ -458,7 +463,7 @@ def vstack_features(reader, paths, same_size=False):
   ...      [6, 7],
   ...      [8, 9]]))
   True
-  >>> all_features_with_more_memory = numpy.vstack(reader(p) for p in paths)
+  >>> all_features_with_more_memory = numpy.vstack([reader(p) for p in paths])
   >>> numpy.allclose(all_features, all_features_with_more_memory)
   True
 
@@ -479,19 +484,22 @@ def vstack_features(reader, paths, same_size=False):
   ...      [6, 7],
   ...      [8, 9]]))
   True
-
-  .. note::
-
-    This function runs very slowly. Only use it when RAM is precious.
   """
   iterable = _generate_features(reader, paths, same_size)
-  dtype, shape = next(iterable)
+  data_dtype, shape = next(iterable)
+  if dtype is None:
+    dtype = data_dtype
   if same_size:
-    total_size = int(len(paths) * numpy.prod(shape))
-    all_features = numpy.fromiter(iterable, dtype, total_size)
+    # numpy black magic: https://stackoverflow.com/a/12473478/1286165
+    field_dtype = [("", (dtype, (numpy.prod(shape),)))]
+    total_size = len(paths)
+    all_features = numpy.fromiter(iterable, field_dtype, total_size)
   else:
-    all_features = numpy.fromiter(iterable, dtype)
+    field_dtype = [("", (dtype, (numpy.prod(shape[1:]),)))]
+    all_features = numpy.fromiter(iterable, field_dtype)
 
+  # go from a field array to a normal array
+  all_features = all_features.view(dtype)
   # the shape is assumed to be (n_samples, ...) it can be (5, 2) or (5, 3, 4).
   shape = list(shape)
   shape[0] = -1
