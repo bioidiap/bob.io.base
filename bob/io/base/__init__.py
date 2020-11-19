@@ -140,6 +140,8 @@ def load(inputs):
   from collections import Iterable
   import numpy
   if _is_string(inputs):
+    if not os.path.exists(inputs):
+      raise RuntimeError(f"`{inputs}' does not exist!")
     return File(inputs, 'r').read()
   elif isinstance(inputs, Iterable):
     retval = []
