@@ -48,10 +48,10 @@ BOB_TRY
   input.reset();
 
   if (blitz::any(test_data - read_data))
-    throw std::runtime_error("The CSV IO test did not succeed");
+    throw std::runtime_error("The HDF5 IO test did not succeed");
 
   if (blitz::any(test_data - read_data_2))
-    throw std::runtime_error("The CSV IO test did not succeed");
+    throw std::runtime_error("The HDF5 IO test did not succeed");
 
   Py_RETURN_NONE;
 BOB_CATCH_FUNCTION("_test_api", 0)
