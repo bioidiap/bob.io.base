@@ -90,7 +90,9 @@ class hdf5:
   def macros(self):
     return [
         ('HAVE_%s' % self.name.upper(), '1'),
-        ]
+        # see https://portal.hdfgroup.org/display/HDF5/Migrating+from+HDF5+1.10+to+HDF5+1.12
+        ('H5_USE_110_API', '1'),
+      ]
 
 
 hdf5_pkg = hdf5()
