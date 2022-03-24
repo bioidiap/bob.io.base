@@ -137,7 +137,7 @@ def load(inputs):
     The data loaded from the given ``inputs``.
   """
 
-  from collections import Iterable
+  from collections.abc import Iterable
   import numpy
   if _is_string(inputs):
     if not os.path.exists(inputs):
@@ -401,9 +401,9 @@ def _generate_features(reader, paths, same_size=False):
     else:
       # make sure all features have the same shape and dtype
       if same_size:
-        assert shape == list(feature.shape)
+        assert shape == list(feature.shape), f"Expected feature shape of {shape}, got {feature.shape}"
       else:
-        assert shape[1:] == list(feature.shape[1:])
+        assert shape[1:] == list(feature.shape[1:]), f"Ignoring first dimension, expected feature shape of {shape}, got {feature.shape}"
       assert dtype == feature.dtype
 
     if same_size:
