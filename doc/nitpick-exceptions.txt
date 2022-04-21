@@ -1,37 +1,6 @@
-# these are actually c types
-cpp:type PyObject
-cpp:type Py_ssize_t
-cpp:typeOrConcept PyObject
-cpp:typeOrConcept Py_ssize_t
-
-# no reference exists for these
-cpp:type bob
-cpp:type bob::core
-cpp:type bob::core::array
-cpp:type bob::core::array::typeinfo
-cpp:type bob::core::array::ElementType
-cpp:type boost
-cpp:type boost::shared_ptr
-cpp:type bob::io
-cpp:type bob::io::base
-cpp:type bob::io::base::File
-cpp:type bob::io::base::HDF5File
-cpp:typeOrConcept bob
-cpp:typeOrConcept bob::core
-cpp:typeOrConcept bob::core::array
-cpp:typeOrConcept bob::core::array::typeinfo
-cpp:typeOrConcept bob::core::array::ElementType
-cpp:typeOrConcept boost
-cpp:typeOrConcept boost::shared_ptr
-cpp:typeOrConcept bob::io
-cpp:typeOrConcept bob::io::base
-cpp:typeOrConcept bob::io::base::File
-cpp:typeOrConcept bob::io::base::HDF5File
-
 # exceptions are not found in python 2.7
 py:exc RuntimeError
 py:class tuple
-c:func PyUnicode_FSConverter
 
 # these don't exists on numpy's manual
 py:class numpy.uint8
