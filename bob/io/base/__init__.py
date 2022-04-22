@@ -2,8 +2,7 @@
 import numpy as np
 import h5py
 import imageio
-from PIL import Image
-from .utils import to_bob
+from .utils import to_bob, to_matplotlib, opencvbgr_to_bob, bob_to_opencvbgr, imshow
 
 
 import os
