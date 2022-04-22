@@ -86,8 +86,8 @@ def open_file(filename):
         # Checking for gray scaled images
         if (
             img.ndim > 2
-            and np.allclose(img[:, :, 0], img[:, :, 1])
-            and np.allclose(img[:, :, 0], img[:, :, 2])
+            and np.array_equal(img[:, :, 0], img[:, :, 1])
+            and np.array_equal(img[:, :, 0], img[:, :, 2])
         ):
             img = img[:, :, 0]
         return img
