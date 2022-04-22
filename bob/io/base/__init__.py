@@ -1,9 +1,7 @@
 # import Libraries of other lib packages
 import numpy as np
 import h5py
-from pygments import format
 import imageio
-import cv2
 from PIL import Image
 from .utils import to_bob
 
