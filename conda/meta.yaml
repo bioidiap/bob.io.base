@@ -24,10 +24,13 @@ requirements:
     - bob.extension
     - h5py {{ h5py }}
     - numpy {{ numpy }}
+    - imageio {{ imageio }}
   run:
     - python
     - setuptools
     - {{ pin_compatible('numpy') }}
+    - {{ pin_compatible('imageio') }}
+    - {{ pin_compatible('h5py') }}
 
 test:
   imports:

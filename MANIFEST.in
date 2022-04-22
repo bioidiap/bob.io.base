@@ -1,4 +1,3 @@
 include LICENSE README.rst buildout.cfg develop.cfg requirements.txt version.txt
 recursive-include doc conf.py *.rst
-recursive-include bob *.cpp *.h
-recursive-include bob/io/base/data *.*
+recursive-include bob/io/base/test/data *.*
