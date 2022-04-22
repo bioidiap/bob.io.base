@@ -2,12 +2,19 @@
 import numpy as np
 import h5py
 import imageio
+
 from .utils import to_bob, to_matplotlib, opencvbgr_to_bob, bob_to_opencvbgr, imshow
 
 import logging
 
 logger = logging.getLogger(__name__)
 import os
+
+# Allowing the loading of truncated files in case PIL is used
+# https://github.com/kirumang/Pix2Pose/issues/2
+from PIL import ImageFile
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 hdf5_extensions = [".hdf5", ".h5", ".hdf", ".hdf5", ".h5", ".hdf", ".hdf5"]
@@ -86,7 +93,6 @@ def open_file(filename):
         return img
 
     extension = os.path.splitext(filename)[1]  # get the extension
-    # logger.error("############")
     # logger.error(filename)
 
     if extension in hdf5_extensions:
@@ -141,7 +147,7 @@ def write_file(filename, data, format="pillow"):
             f["array"] = data
     elif extension in image_extensions:
         # Pillow is the format with the best support for all image formats
-        imageio.imwrite(filename, data, format=format)
+        imageio.imwrite(filename, to_matplotlib(data), format=format)
     else:
         raise RuntimeError(f"Unknown file extension: {extension}")
 

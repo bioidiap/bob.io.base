@@ -155,5 +155,9 @@ def test_image_load():
 def test_image_exceptions():
     # This tests some image exceptions I found
 
-    # Real PNG image
+    # Real GRAY PNG image
     transcode(datafile("read_png_gray.png", __name__))
+
+    # Trucated JPEG
+    # THIS TEST FAILS
+    # transcode(datafile("truncated_jpeg.jpg", __name__))
