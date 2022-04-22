@@ -4,7 +4,9 @@ import h5py
 import imageio
 from .utils import to_bob, to_matplotlib, opencvbgr_to_bob, bob_to_opencvbgr, imshow
 
+import logging
 
+logger = logging.getLogger(__name__)
 import os
 
 
@@ -84,6 +86,8 @@ def open_file(filename):
         return img
 
     extension = os.path.splitext(filename)[1]  # get the extension
+    # logger.error("############")
+    # logger.error(filename)
 
     if extension in hdf5_extensions:
         with h5py.File(filename, "r") as f:
@@ -99,8 +103,9 @@ def open_file(filename):
 
         # PNGs have a 4th channel, which we don't want
         # Alpha channels for instance have to be ignored
-        if extension.lower() == ".png":
-            img = img[:, :, 0:3]
+        if img.ndim > 2:
+            if extension.lower() == ".png":
+                img = img[:, :, 0:3]
 
         img = check_gray(img)
         return img if img.ndim == 2 else to_bob(img)

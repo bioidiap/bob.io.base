@@ -150,3 +150,10 @@ def test_image_load():
     nose.tools.assert_raises(
         RuntimeError, lambda x: load(os.path.splitext(x)[0] + ".unknown"), full_file
     )
+
+
+def test_image_exceptions():
+    # This tests some image exceptions I found
+
+    # Real PNG image
+    transcode(datafile("read_png_gray.png", __name__))
