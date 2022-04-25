@@ -116,7 +116,7 @@ def open_file(filename):
         img = check_gray(img)
         return img if img.ndim == 2 else to_bob(img)
     else:
-        raise RuntimeError(f"Unknown file extension: {extension}")
+        raise ValueError(f"Unknown file extension: {extension}")
 
 
 def write_file(filename, data, format="pillow"):
