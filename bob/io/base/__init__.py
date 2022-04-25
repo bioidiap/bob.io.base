@@ -3,7 +3,7 @@ import numpy as np
 import h5py
 import imageio
 
-from .utils import to_bob, to_matplotlib, opencvbgr_to_bob, bob_to_opencvbgr, imshow
+from ..image import to_bob, to_matplotlib
 
 import logging
 
@@ -34,17 +34,8 @@ image_extensions = [
 
 
 def _is_string(s):
-    """Returns ``True`` if the given object is a string
-
-    This method can be used with Python-2.x or 3.x and returns a string
-    respecting each environment's constraints.
-    """
-
-    from sys import version_info
-
-    return (version_info[0] < 3 and isinstance(s, (str, unicode))) or isinstance(
-        s, (bytes, str)
-    )
+    """Returns ``True`` if the given object is a string or bytes."""
+    return isinstance(s, (bytes, str))
 
 
 @np.deprecate(new_name="os.makedirs(directory, exist_ok=True)")
