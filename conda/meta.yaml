@@ -17,28 +17,20 @@ build:
     - "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
-  build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - pkg-config {{ pkg_config }}
-    - cmake {{ cmake }}
-    - make {{ make }}
   host:
     - python {{ python }}
     - setuptools {{ setuptools }}
     - pip {{ pip }}
     - bob.extension
-    - bob.blitz
-    - bob.core
-    - libblitz {{ libblitz }}
-    - hdf5 {{ hdf5 }}
-    - boost {{ boost }}
+    - h5py {{ h5py }}
     - numpy {{ numpy }}
+    - imageio {{ imageio }}
   run:
     - python
     - setuptools
-    - boost
     - {{ pin_compatible('numpy') }}
+    - {{ pin_compatible('imageio') }}
+    - {{ pin_compatible('h5py') }}
 
 test:
   imports:
