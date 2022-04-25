@@ -2,7 +2,7 @@ import nose
 import numpy as np
 import os
 from bob.io.base import vstack_features, save, load
-from .test_utils import temporary_filename
+from ..test_utils import temporary_filename
 
 
 def test_io_vstack():

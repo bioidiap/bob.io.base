@@ -12,7 +12,7 @@ import os
 import numpy
 
 from bob.io.base import load, write
-from .test_utils import datafile, temporary_filename
+from ..test_utils import datafile, temporary_filename
 
 # import bob.io.image
 import nose
