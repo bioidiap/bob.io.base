@@ -88,12 +88,17 @@ def open_file(filename):
 
     if extension in hdf5_extensions:
         with h5py.File(filename, "r") as f:
-            if "array" not in f.keys():
+            keys = list(f.keys())
+            if len(keys) == 1:
+                key = keys[0]
+            else:
+                key = "array"
+            if key not in keys:
                 raise RuntimeError(
-                    "The file '%s' does not contain the key 'array'" % filename
+                    f"The file {filename} does not contain the key {key}"
                 )
 
-            return np.array(f["array"])
+            return np.array(f[key])
     elif extension in image_extensions:
 
         img = imageio.imread(filename)
