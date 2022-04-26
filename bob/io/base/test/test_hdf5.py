@@ -9,7 +9,7 @@
 
 import os
 from bob.io.base import load, save
-from .test_utils import temporary_filename
+from ..test_utils import temporary_filename
 
 
 import numpy as np
