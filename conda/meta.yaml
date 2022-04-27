@@ -24,11 +24,13 @@ requirements:
     - bob.extension
     - h5py {{ h5py }}
     - numpy {{ numpy }}
+    - pillow {{ pillow }}
     - imageio {{ imageio }}
   run:
     - python
     - setuptools
     - {{ pin_compatible('numpy') }}
+    - {{ pin_compatible('pillow') }}
     - {{ pin_compatible('imageio') }}
     - {{ pin_compatible('h5py') }}
 

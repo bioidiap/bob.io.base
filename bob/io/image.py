@@ -1,4 +1,5 @@
 import numpy as np
+from PIL import Image
 
 
 def to_matplotlib(img):
@@ -43,6 +44,46 @@ def to_bob(img):
     if img.ndim < 3:
         return img
     return np.moveaxis(img, -1, -3)
+
+
+def bob_to_pillow(img):
+    """Converts the floating or uint8 image to a Pillow Image.
+
+    Parameters
+    ----------
+    img : numpy.ndarray
+        A gray-scale or RGB color image in Bob format (channels first)
+
+    Returns
+    -------
+    Image
+        An object of pillow.Image.
+    """
+    # first convert to matplotlib format
+    img = to_matplotlib(img)
+    # if img is floating point, convert to uint8
+    if isinstance(img, np.floating):
+        # we expect float images to be between 0 and 1
+        img = np.clip(img, 0, 1) * 255
+        img = img.astype(np.uint8)
+
+    return Image.fromarray(img)
+
+
+def pillow_to_bob(img):
+    """Converts an RGB or gray-scale pillow image to Bob format
+
+    Parameters
+    ----------
+    img : Image
+        A Pillow Image
+
+    Returns
+    -------
+    numpy.ndarray
+        Image in Bob format
+    """
+    return to_bob(np.array(img))
 
 
 def opencvbgr_to_bob(img):
