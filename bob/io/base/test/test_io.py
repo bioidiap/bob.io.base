@@ -1,7 +1,10 @@
+import os
+
 import nose
 import numpy as np
-import os
-from bob.io.base import vstack_features, save, load
+
+from bob.io.base import load, save, vstack_features
+
 from ..test_utils import temporary_filename
 
 

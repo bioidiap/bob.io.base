@@ -1,11 +1,11 @@
 # import Libraries of other lib packages
-import numpy as np
+import logging
+
 import h5py
 import imageio
+import numpy as np
 
 from ..image import to_bob, to_matplotlib
-
-import logging
 
 logger = logging.getLogger(__name__)
 import os
@@ -182,6 +182,7 @@ def load(inputs):
     """
 
     from collections.abc import Iterable
+
     import numpy
 
     if _is_string(inputs):
@@ -246,44 +247,6 @@ read = load
 
 # Keeps compatibility with the previously existing API
 # open = File
-
-
-def get_include_directories():
-    """get_include_directories() -> includes
-
-    Returns a list of include directories for dependent libraries, such as HDF5.
-    This function is automatically used by
-    :py:func:`bob.extension.get_bob_libraries` to retrieve the non-standard
-    include directories that are required to use the C bindings of this library
-    in dependent classes. You shouldn't normally need to call this function by
-    hand.
-
-    **Returns:**
-
-    ``includes`` : [str]
-      The list of non-standard include directories required to use the C bindings
-      of this class. For now, only the directory for the HDF5 headers are
-      returned.
-    """
-    # try to use pkg_config first
-    try:
-        from bob.extension.utils import find_header
-
-        # locate pkg-config on our own
-        header = "hdf5.h"
-        candidates = find_header(header)
-        if not candidates:
-            raise RuntimeError(
-                "could not find %s's `%s' - have you installed %s on this "
-                "machine?" % ("hdf5", header, "hdf5")
-            )
-
-        return [os.path.dirname(candidates[0])]
-    except RuntimeError:
-        from bob.extension import pkgconfig
-
-        pkg = pkgconfig("hdf5")
-        return pkg.include_directories()
 
 
 def _generate_features(reader, paths, same_size=False):

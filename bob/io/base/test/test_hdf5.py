@@ -8,12 +8,13 @@
 """
 
 import os
-from bob.io.base import load, save
-from ..test_utils import temporary_filename
-
+import random
 
 import numpy as np
-import random
+
+from bob.io.base import load, save
+
+from ..test_utils import temporary_filename
 
 
 def read_write_check(data):

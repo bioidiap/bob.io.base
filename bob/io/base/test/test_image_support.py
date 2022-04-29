@@ -9,14 +9,14 @@
 """
 
 import os
-import numpy
-
-from bob.io.base import load, write
-from ..test_utils import datafile, temporary_filename
 
 # import bob.io.image
 import nose
+import numpy
 
+from bob.io.base import load, write
+
+from ..test_utils import datafile, temporary_filename
 
 # These are some global parameters for the test.
 PNG_INDEXED_COLOR = datafile("img_indexed_color.png", __name__)
@@ -148,7 +148,9 @@ def test_image_load():
 
     # Testing exception
     nose.tools.assert_raises(
-        RuntimeError, lambda x: load(os.path.splitext(x)[0] + ".unknown"), full_file
+        RuntimeError,
+        lambda x: load(os.path.splitext(x)[0] + ".unknown"),
+        full_file,
     )
 
 

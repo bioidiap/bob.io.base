@@ -16,6 +16,3 @@ Functions
    bob.io.base.save
    bob.io.base.create_directories_safe
    bob.io.base.vstack_features
-
-
-
