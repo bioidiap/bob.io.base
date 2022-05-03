@@ -10,8 +10,7 @@
 
 import functools
 import os
-
-import nose.plugins.skip
+import unittest
 
 
 def datafile(f, module=None, path="data"):
@@ -110,7 +109,7 @@ def extension_available(extension):
             if extension in extensions():
                 return test(*args, **kwargs)
             else:
-                raise nose.plugins.skip.SkipTest(
+                raise unittest.SkipTest(
                     'Extension to handle "%s" files was not available at compile time'
                     % extension
                 )

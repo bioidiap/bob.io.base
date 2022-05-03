@@ -1,7 +1,7 @@
 import os
 
-import nose
 import numpy as np
+import pytest
 
 from bob.io.base import load, save, vstack_features
 
@@ -64,7 +64,7 @@ def test_io_vstack():
     ]:
         np.all(vstack_features(reader, paths, True) == oracle(reader, paths))
 
-    with nose.tools.assert_raises(AssertionError):
+    with pytest.raises(AssertionError):
         vstack_features(reader_wrong_size, paths)
 
     # test actual files
@@ -89,7 +89,7 @@ def test_io_vstack():
             np.all(vstack_features(load, paths) == reference)
             os.remove(paths[0])
             # Check if RuntimeError is raised when one of the files is missing
-            with nose.tools.assert_raises(RuntimeError):
+            with pytest.raises(RuntimeError):
                 vstack_features(load, paths)
     finally:
         try:
