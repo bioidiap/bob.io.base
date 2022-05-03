@@ -10,9 +10,10 @@
 
 import os
 
-# import bob.io.image
-import nose
 import numpy
+
+# import bob.io.image
+import pytest
 
 from bob.io.base import load, write
 
@@ -147,11 +148,8 @@ def test_image_load():
     load(full_file).shape == (100, 100)
 
     # Testing exception
-    nose.tools.assert_raises(
-        RuntimeError,
-        lambda x: load(os.path.splitext(x)[0] + ".unknown"),
-        full_file,
-    )
+    with pytest.raises(RuntimeError):
+        load(os.path.splitext(full_file)[0] + ".unknown")
 
 
 def test_image_exceptions():
