@@ -193,19 +193,19 @@ def load(inputs):
     if _is_string(inputs):
         if not os.path.exists(inputs):
             raise RuntimeError(f"`{inputs}' does not exist!")
-        return open_file(inputs)
+        try:
+            return open_file(inputs)
+        except Exception as e:
+            raise RuntimeError(f"Could not load `{inputs}'!") from e
 
     elif isinstance(inputs, Iterable):
         retval = []
         for obj in inputs:
             if _is_string(obj):
                 retval.append(load(obj))
-            # elif isinstance(obj, File):
-            #    retval.append(obj.read())
             else:
                 raise TypeError(
-                    "Iterable contains an object which is not a filename nor a "
-                    "bob.io.base.File."
+                    "Iterable contains an object which is not a filename"
                 )
         return numpy.vstack(retval)
     else:
