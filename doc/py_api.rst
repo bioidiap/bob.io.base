@@ -12,7 +12,16 @@ Functions
 ---------
 
 .. autosummary::
-   bob.io.base.load
    bob.io.base.save
-   bob.io.base.create_directories_safe
+   bob.io.base.load
    bob.io.base.vstack_features
+   bob.io.image.to_matplotlib
+   bob.io.image.to_bob
+   bob.io.image.bob_to_pillow
+   bob.io.image.pillow_to_bob
+   bob.io.image.opencvbgr_to_bob
+   bob.io.image.bob_to_opencvbgr
+   bob.io.image.imshow
+
+.. automodule:: bob.io.base
+.. automodule:: bob.io.image

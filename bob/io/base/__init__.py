@@ -5,8 +5,6 @@ import h5py
 import imageio
 import numpy as np
 
-from ..image import to_bob, to_matplotlib
-
 logger = logging.getLogger(__name__)
 import os
 
@@ -100,6 +98,7 @@ def open_file(filename):
 
             return np.array(f[key])
     elif extension in image_extensions:
+        from ..image import to_bob
 
         img = imageio.imread(filename)
 
@@ -143,6 +142,8 @@ def write_file(filename, data, format="pillow"):
             f["array"] = data
     elif extension in image_extensions:
         # Pillow is the format with the best support for all image formats
+        from ..image import to_matplotlib
+
         imageio.imwrite(filename, to_matplotlib(data), format=format)
     else:
         raise RuntimeError(f"Unknown file extension: {extension}")
