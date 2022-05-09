@@ -7,29 +7,24 @@
 """Tests for the base HDF5 infrastructure
 """
 
-import os
 import random
+import tempfile
 
 import numpy as np
 
 from bob.io.base import load, save
 
-from ..test_utils import temporary_filename
 
-
-def read_write_check(data):
+def read_write_check(data, numpy_assert=True):
     """Testing loading and save different file types"""
 
-    tmpname = temporary_filename()
-
-    try:
-
-        save(data, tmpname)
-        data2 = load(tmpname)
-    finally:
-        os.unlink(tmpname)
-
-    assert np.allclose(data, data2, atol=10e-5, rtol=10e-5)
+    with tempfile.NamedTemporaryFile(prefix="bobtest_", suffix=".hdf5") as f:
+        save(data, f.name)
+        data2 = load(f.name)
+        if numpy_assert:
+            assert np.allclose(data, data2, atol=10e-5, rtol=10e-5)
+        else:
+            assert data == data2
 
 
 def test_type_support():
@@ -54,3 +49,8 @@ def test_type_support():
     read_write_check(np.array(data, np.float64))
     read_write_check(np.array(data, np.complex64))
     read_write_check(np.array(data, np.complex128))
+
+
+def test_scalar_support():
+    for oracle in (1, 1.0, 1j, "a", True):
+        read_write_check(oracle, numpy_assert=False)

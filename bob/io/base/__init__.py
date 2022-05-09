@@ -95,8 +95,12 @@ def open_file(filename):
                 raise RuntimeError(
                     f"The file {filename} does not contain the key {key}"
                 )
-
-            return np.array(f[key])
+            dataset = f[key]
+            # if the data was saved as a string, load it back as string
+            string_dtype = h5py.check_string_dtype(dataset.dtype)
+            if string_dtype is not None:
+                dataset = dataset.asstr()
+            return dataset[()]
     elif extension in image_extensions:
         from ..image import to_bob
 
@@ -235,8 +239,10 @@ def save(array, filename, create_directories=False):
     if create_directories:
         create_directories_safe(os.path.dirname(filename))
 
-    # requires data is c-contiguous and aligned, will create a copy otherwise
-    array = np.require(array, requirements=("C_CONTIGUOUS", "ALIGNED"))
+    # if array is a string, don't create a numpy array
+    if not isinstance(array, str):
+        # requires data is c-contiguous and aligned, will create a copy otherwise
+        array = np.require(array, requirements=("C_CONTIGUOUS", "ALIGNED"))
 
     write_file(filename, array)
 
