@@ -18,7 +18,6 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 hdf5_extensions = [".hdf5", ".h5", ".hdf", ".hdf5", ".h5", ".hdf", ".hdf5"]
 image_extensions = [
     ".jpg",
-    ".JPG",
     ".jpeg",
     ".png",
     ".bmp",
@@ -82,8 +81,8 @@ def open_file(filename):
             img = img[:, :, 0]
         return img
 
-    extension = os.path.splitext(filename)[1]  # get the extension
-    # logger.error(filename)
+    # get the extension
+    extension = os.path.splitext(filename)[1].lower()
 
     if extension in hdf5_extensions:
         with h5py.File(filename, "r") as f:
@@ -102,6 +101,7 @@ def open_file(filename):
             if string_dtype is not None:
                 dataset = dataset.asstr()
             return dataset[()]
+
     elif extension in image_extensions:
         from ..image import to_bob
 
