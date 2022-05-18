@@ -64,8 +64,10 @@ def bob_to_pillow(img):
     img = to_matplotlib(img)
     # if img is floating point, convert to uint8
     if isinstance(img, np.floating):
-        # we expect float images to be between 0 and 1
-        img = np.clip(img, 0, 1) * 255
+        # In Bob, we expect float images to be between 0 and 255
+        # see https://gitlab.idiap.ch/bob/bob.bio.face/-/issues/48
+        img = np.round(img)
+        img = np.clip(img, 0, 255)
         img = img.astype(np.uint8)
 
     return Image.fromarray(img)
@@ -108,7 +110,7 @@ def opencvbgr_to_bob(img):
         If the image dimension is less than 3.
     """
     if img.ndim < 3:
-        raise ValueError("You need to provide at least a 3 dimensional image")
+        return img
     img = img[..., ::-1]
     return to_bob(img)
 
@@ -134,7 +136,7 @@ def bob_to_opencvbgr(img):
         If the image dimension is less than 3.
     """
     if img.ndim < 3:
-        raise ValueError("You need to provide at least a 3 dimensional image")
+        return img
     img = img[..., ::-1, :, :]
     return to_matplotlib(img)
 
