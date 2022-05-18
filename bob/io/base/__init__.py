@@ -18,6 +18,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 hdf5_extensions = [".hdf5", ".h5", ".hdf", ".hdf5", ".h5", ".hdf", ".hdf5"]
 image_extensions = [
     ".jpg",
+    ".JPG",
     ".jpeg",
     ".png",
     ".bmp",
