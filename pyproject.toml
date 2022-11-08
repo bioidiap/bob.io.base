@@ -77,3 +77,4 @@ addopts = [
 ]
 junit_logging = "all"
 junit_log_passing_tests = false
+norecursedirs = ["src/*"]
