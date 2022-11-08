@@ -1,6 +1,7 @@
 .. place re-used URLs here, then include this file
 .. on your other RST sources.
 
+.. _bob: https://www.idiap.ch/software/bob/
 .. _conda: https://conda.io
 .. _idiap: http://www.idiap.ch
 .. _python: http://www.python.org
