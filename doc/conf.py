@@ -90,10 +90,6 @@ owner = ["Idiap Research Institute"]
 
 html_theme = "sphinx_rtd_theme"
 
-html_theme_options = {
-    "source_edit_link": f"https://gitlab.idiap.ch/bob/{project}/-/edit/master/doc/{{filename}}",
-}
-
 html_title = f"{project} {release}"
 
 
