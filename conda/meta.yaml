@@ -26,6 +26,7 @@ requirements:
     - numpy {{ numpy }}
     - pillow {{ pillow }}
     - imageio {{ imageio }}
+    - click {{ click }}
   run:
     - python
     - setuptools
@@ -33,6 +34,7 @@ requirements:
     - {{ pin_compatible('pillow') }}
     - {{ pin_compatible('imageio') }}
     - {{ pin_compatible('h5py') }}
+    - {{ pin_compatible('click') }}
 
 test:
   imports:

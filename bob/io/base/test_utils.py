@@ -10,7 +10,12 @@
 
 import functools
 import os
+import traceback
 import unittest
+
+from typing import Optional
+
+import click.testing
 
 
 def datafile(f, module=None, path="data"):
@@ -117,3 +122,38 @@ def extension_available(extension):
         return wrapper
 
     return test_wrapper
+
+
+def assert_click_runner_result(
+    result: click.testing.Result,
+    exit_code: int = 0,
+    exception_type: Optional[Exception] = None,
+):
+    """Helper for asserting click runner results.
+
+    Parameters
+    ----------
+    result
+        The return value on ``click.testing.CLIRunner.invoke()``.
+    exit_code
+        The expected command exit code (defaults to 0).
+    exception_type
+        If given, will ensure that the raised exception is of that type.
+    """
+
+    m = (
+        "Click command exited with code '{}', instead of '{}'.\n"
+        "Exception:\n{}\n"
+        "Output:\n{}"
+    )
+    exception = (
+        "None"
+        if result.exc_info is None
+        else "".join(traceback.format_exception(*result.exc_info))
+    )
+    m = m.format(result.exit_code, exit_code, exception, result.output)
+    assert result.exit_code == exit_code, m
+    if exit_code == 0:
+        assert not result.exception, m
+    if exception_type is not None:
+        assert isinstance(result.exception, exception_type), m
