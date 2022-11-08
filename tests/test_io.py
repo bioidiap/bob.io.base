@@ -4,8 +4,7 @@ import numpy as np
 import pytest
 
 from bob.io.base import load, save, vstack_features
-
-from ..test_utils import temporary_filename
+from bob.io.base.test_utils import temporary_filename
 
 
 def test_io_vstack():
