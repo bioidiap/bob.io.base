@@ -9,7 +9,6 @@ from ..test_utils import temporary_filename
 
 
 def test_io_vstack():
-
     paths = [1, 2, 3, 4, 5]
 
     def oracle(reader, paths):

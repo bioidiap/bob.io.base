@@ -38,10 +38,11 @@ def _is_string(s):
 
 @np.deprecate(new_name="os.makedirs(directory, exist_ok=True)")
 def create_directories_safe(directory, dryrun=False):
-    """Creates a directory if it does not exists, with concurrent access support.
-    This function will also create any parent directories that might be required.
-    If the dryrun option is selected, it does not actually create the directory,
-    but just writes the (Linux) command that would have been executed.
+    """Creates a directory if it does not exists, with concurrent access
+    support. This function will also create any parent directories that might
+    be required. If the dryrun option is selected, it does not actually create
+    the directory, but just writes the (Linux) command that would have been
+    executed.
 
     **Parameters:**
 
@@ -58,7 +59,7 @@ def create_directories_safe(directory, dryrun=False):
 
 
 def open_file(filename):
-    """open_file(filename) -> file
+    """open_file(filename) -> file.
 
     Opens a file for reading.
 
@@ -67,8 +68,6 @@ def open_file(filename):
 
     ``filename`` : str
       The name of the file to open.
-
-
     """
 
     def check_gray(img):
@@ -120,8 +119,7 @@ def open_file(filename):
 
 
 def write_file(filename, data, format="pillow"):
-    """
-    write_file(filename, data) -> None
+    """write_file(filename, data) -> None.
 
     Writes the contents of a :py:class:`numpy.ndarray` to a file.
 
@@ -136,8 +134,6 @@ def write_file(filename, data, format="pillow"):
 
     ``format`` : str
       The format to use to read the file. By default imageio selects the appropriate for you based on the filename and its contents
-
-
     """
 
     extension = os.path.splitext(filename)[1]  # get the extension
@@ -155,7 +151,7 @@ def write_file(filename, data, format="pillow"):
 
 
 def load(inputs):
-    """load(inputs) -> data
+    """load(inputs) -> data.
 
     Loads the contents of a file, an iterable of files, or an iterable of
     :py:class:`bob.io.base.File`'s into a :py:class:`numpy.ndarray`.

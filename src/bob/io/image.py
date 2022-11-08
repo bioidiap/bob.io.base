@@ -4,8 +4,8 @@ from PIL import Image
 
 
 def to_matplotlib(img):
-    """Returns a view of the image from Bob format to matplotlib format.
-    This function works with images, batches of images, videos, and higher
+    """Returns a view of the image from Bob format to matplotlib format. This
+    function works with images, batches of images, videos, and higher
     dimensional arrays that contain images.
 
     Parameters
@@ -27,8 +27,8 @@ def to_matplotlib(img):
 
 
 def to_bob(img):
-    """Returns a view of the image from matplotlib format to Bob format.
-    This function works with images, batches of images, videos, and higher
+    """Returns a view of the image from matplotlib format to Bob format. This
+    function works with images, batches of images, videos, and higher
     dimensional arrays that contain images.
 
     Parameters
@@ -74,7 +74,7 @@ def bob_to_pillow(img):
 
 
 def pillow_to_bob(img):
-    """Converts an RGB or gray-scale pillow image to Bob format
+    """Converts an RGB or gray-scale pillow image to Bob format.
 
     Parameters
     ----------
@@ -116,8 +116,8 @@ def opencvbgr_to_bob(img):
 
 
 def bob_to_opencvbgr(img):
-    """Returns a view of the image from Bob format to OpenCV BGR format.
-    This function works with images, batches of images, videos, and higher
+    """Returns a view of the image from Bob format to OpenCV BGR format. This
+    function works with images, batches of images, videos, and higher
     dimensional arrays that contain images.
 
     Parameters

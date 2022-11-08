@@ -1,27 +1,25 @@
-{% set name = 'bob.io.base' %}
-{% set project_dir = environ.get('RECIPE_DIR') + '/..' %}
+{% set data = load_file_data(RECIPE_DIR + '/../pyproject.toml') %}
 
 package:
-  name: {{ name }}
-  version: {{ environ.get('BOB_PACKAGE_VERSION', '0.0.1') }}
+  name: {{ data['project']['name'] }}
+  version: {{ data['project']['version'] }}
+
+source:
+  path: ..
 
 build:
+  noarch: python
   number: {{ environ.get('BOB_BUILD_NUMBER', 0) }}
   run_exports:
-    - {{ pin_subpackage(name) }}
+    - {{ pin_subpackage(data['project']['name']) }}
   script:
-    - cd {{ project_dir }}
-    {% if environ.get('BUILD_EGG') %}
-    - "{{ PYTHON }} setup.py sdist --formats=zip"
-    {% endif %}
-    - "{{ PYTHON }} -m pip install . -vv"
+    - "{{ PYTHON }} -m pip install {{ SRC_DIR }} -vv"
 
 requirements:
   host:
     - python {{ python }}
     - setuptools {{ setuptools }}
     - pip {{ pip }}
-    - bob.extension
     - h5py {{ h5py }}
     - numpy {{ numpy }}
     - pillow {{ pillow }}
@@ -37,23 +35,16 @@ requirements:
     - {{ pin_compatible('click') }}
 
 test:
+  source_files:
+    - tests
   imports:
-    - {{ name }}
+    - {{ data['project']['name'].replace('-','_') }}
   commands:
-    - pytest --verbose --cov {{ name }} --cov-report term-missing --cov-report html:{{ project_dir }}/sphinx/coverage --cov-report xml:{{ project_dir }}/coverage.xml --pyargs {{ name }}
-    - sphinx-build -aEW {{ project_dir }}/doc {{ project_dir }}/sphinx
-    - sphinx-build -aEb doctest {{ project_dir }}/doc sphinx
     - conda inspect linkages -p $PREFIX {{ name }}  # [not win]
     - conda inspect objects -p $PREFIX {{ name }}  # [osx]
-  requires:
-    - pytest {{ pytest }}
-    - pytest-cov {{ pytest_cov }}
-    - coverage {{ coverage }}
-    - sphinx {{ sphinx }}
-    - sphinx_rtd_theme {{ sphinx_rtd_theme }}
 
 about:
-  home: https://www.idiap.ch/software/bob/
-  license: BSD 3-Clause
-  summary: Basic IO for Bob
+  home: {{ data['project']['urls']['homepage'] }}
+  summary: {{ data['project']['description'] }}
+  license: {{ data['project']['license']['text'] }}
   license_family: BSD

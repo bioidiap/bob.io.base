@@ -1,5 +1,0 @@
-bob.extension
-h5py
-imageio
-numpy
-click

@@ -1,11 +1,9 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf-8 :
 # Tiago de Freitas Pereira <tiago.pereira@idiap.ch>
 #
 # Copyright (C) 2011-2014 Idiap Research Institute, Martigny, Switzerland
 
-"""Tests for the base HDF5 infrastructure
-"""
+"""Tests for the base HDF5 infrastructure."""
 
 import random
 import tempfile
@@ -16,7 +14,7 @@ from bob.io.base import load, save
 
 
 def read_write_check(data, numpy_assert=True):
-    """Testing loading and save different file types"""
+    """Testing loading and save different file types."""
 
     with tempfile.NamedTemporaryFile(prefix="bobtest_", suffix=".hdf5") as f:
         save(data, f.name)
@@ -28,7 +26,6 @@ def read_write_check(data, numpy_assert=True):
 
 
 def test_type_support():
-
     # This test will go through all supported types for reading/writing data
     # from to HDF5 files. One single file will hold all data for this test.
     # This is also supported with HDF5: multiple variables in a single file.
