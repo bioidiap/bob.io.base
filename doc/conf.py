@@ -112,4 +112,3 @@ auto_intersphinx_packages = [
     "matplotlib",
     "pillow",
 ]
-auto_intersphinx_catalog = "catalog.json"
