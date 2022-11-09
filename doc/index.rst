@@ -25,12 +25,12 @@ Documentation
 .. toctree::
    :maxdepth: 2
 
+   install
    py_api
 
 TODO
 ----
 
-.. todolist::
 
 Indices and tables
 ------------------

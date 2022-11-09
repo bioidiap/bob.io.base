@@ -1,7 +1,9 @@
-.. vim: set fileencoding=utf-8 :
+.. place re-used URLs here, then include this file
+.. on your other RST sources.
 
-.. _blitz++: http://www.oonumerics.org/blitz
-.. _bob: https://www.idiap.ch/software/bob
-.. _hdf5: http://www.hdfgroup.org/HDF5
-.. _numpy: http://numpy.scipy.org
+.. _bob: https://www.idiap.ch/software/bob/
+.. _conda: https://conda.io
+.. _idiap: http://www.idiap.ch
 .. _python: http://www.python.org
+.. _pip: https://pip.pypa.io/en/stable/
+.. _mamba: https://mamba.readthedocs.io/en/latest/index.html

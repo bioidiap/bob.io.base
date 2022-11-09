@@ -1,12 +1,10 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf-8 :
 # Andre Anjos <andre.anjos@idiap.ch>
 # Thu Feb  7 09:58:22 2013
 #
 # Copyright (C) 2011-2013 Idiap Research Institute, Martigny, Switzerland
 
-"""Re-usable decorators and utilities for bob test code
-"""
+"""Re-usable decorators and utilities for bob test code."""
 
 import functools
 import os
@@ -19,7 +17,7 @@ import click.testing
 
 
 def datafile(f, module=None, path="data"):
-    """datafile(f, [module], [data]) -> filename
+    """datafile(f, [module], [data]) -> filename.
 
     Returns the test file on the "data" subdirectory of the current module.
 
@@ -52,7 +50,7 @@ def datafile(f, module=None, path="data"):
 
 
 def temporary_filename(prefix="bobtest_", suffix=".hdf5"):
-    """temporary_filename([prefix], [suffix]) -> filename
+    """temporary_filename([prefix], [suffix]) -> filename.
 
     Generates a temporary filename to be used in tests, using the default ``temp`` directory (on Unix-like systems, usually ``/tmp``).
     Please note that you are responsible for deleting the file after your test finished.
@@ -60,8 +58,8 @@ def temporary_filename(prefix="bobtest_", suffix=".hdf5"):
 
     .. code-block:: py
 
-       import bob.io.base.test_utils
-       temp = bob.io.base.test_utils.temporary_filename()
+       import bob.io.base.testing_utils
+       temp = bob.io.base.testing_utils.temporary_filename()
        try:
          # use the temp file
          ...
@@ -81,7 +79,6 @@ def temporary_filename(prefix="bobtest_", suffix=".hdf5"):
     ``filename`` : str
       The name of a temporary file that you can use in your test.
       Don't forget to delete!
-
     """
     import tempfile
 
@@ -92,16 +89,16 @@ def temporary_filename(prefix="bobtest_", suffix=".hdf5"):
 
 
 def extension_available(extension):
-    """Decorator to check if a extension is available before enabling a test
+    """Decorator to check if a extension is available before enabling a test.
 
     This decorator is mainly used to decorate a test function, in order to skip tests when the extension is not available.
     The syntax is:
 
     .. code-block:: py
 
-       import bob.io.base.test_utils
+       import bob.io.base.testing_utils
 
-       @bob.io.base.test_utils.extension_available('.ext')
+       @bob.io.base.testing_utils.extension_available('.ext')
        def my_test():
          ...
     """
@@ -127,7 +124,7 @@ def extension_available(extension):
 def assert_click_runner_result(
     result: click.testing.Result,
     exit_code: int = 0,
-    exception_type: Optional[Exception] = None,
+    exception_type: Optional[type] = None,
 ):
     """Helper for asserting click runner results.
 

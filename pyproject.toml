@@ -1,12 +1,81 @@
 [build-system]
-    requires = ["setuptools", "wheel", "bob.extension"]
+    requires = ["setuptools>=61.0.0", "wheel"]
     build-backend = "setuptools.build_meta"
 
+[project]
+name = "bob.io.base"
+version = "5.0.3b1"
+requires-python = ">=3.9"
+description = "Basic IO for Bob"
+dynamic = ["readme"]
+license = {text = "BSD 3-Clause License"}
+authors = [
+  {name = "Andre Anjos"},
+  {email = "andre.anjos@idiap.ch"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "h5py",
+    "imageio",
+    "numpy",
+    "click",
+    "pillow",
+]
+
+[project.urls]
+documentation = "https://www.idiap.ch/software/bob/docs/bob/bob.io.base/master/sphinx"
+homepage = "https://pypi.org/project/bob.io.base"
+repository = "https://gitlab.idiap.ch/bob/bob.io.base"
+changelog = "https://gitlab.idiap.ch/bob/bob.io.base/-/releases"
+
+[project.optional-dependencies]
+qa = ["pre-commit"]
+doc = [
+    "sphinx",
+    "sphinx_rtd_theme",
+    "auto-intersphinx",
+    ]
+test = [
+    "pytest",
+    "pytest-cov",
+    "coverage",
+    ]
+
+[tool.setuptools]
+zip-safe = true
+package-dir = {"" = "src"}
+
+[tool.setuptools.dynamic]
+readme = {file = "README.md"}
+
+[tool.distutils.bdist_wheel]
+universal = true
+
 [tool.isort]
-    profile = "black"
-    line_length = 80
-    order_by_type = true
-    lines_between_types = 1
+profile = "black"
+line_length = 80
+order_by_type = true
+lines_between_types = 1
 
 [tool.black]
-    line-length = 80
+line-length = 80
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=append",
+    "--cov-report=term-missing",
+    "--cov=bob.io.base",
+]
+junit_logging = "all"
+junit_log_passing_tests = false
+norecursedirs = ["src/*"]
