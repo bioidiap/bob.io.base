@@ -1,7 +1,8 @@
 {% set data = load_file_data(RECIPE_DIR + '/../pyproject.toml') %}
+{% set name = data['project']['name'] %}
 
 package:
-  name: {{ data['project']['name'] }}
+  name: {{ name }}
   version: {{ data['project']['version'] }}
 
 source:
@@ -38,7 +39,7 @@ test:
   source_files:
     - tests
   imports:
-    - {{ data['project']['name'].replace('-','_') }}
+    - {{ name.replace('-','_') }}
   commands:
     - conda inspect linkages -p $PREFIX {{ name }}  # [not win]
     - conda inspect objects -p $PREFIX {{ name }}  # [osx]
