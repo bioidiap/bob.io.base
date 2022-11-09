@@ -57,8 +57,8 @@ def bob_to_pillow(img):
 
     Returns
     -------
-    PIL.Image.Image
-        An object of pillow.Image.
+    pillow.Image.Image
+        An Image object of pillow.
     """
     # first convert to matplotlib format
     img = to_matplotlib(img)
@@ -78,7 +78,7 @@ def pillow_to_bob(img):
 
     Parameters
     ----------
-    img: PIL.Image.Image
+    img: pillow.Image.Image
         A Pillow Image
 
     Returns

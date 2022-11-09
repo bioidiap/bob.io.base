@@ -110,6 +110,6 @@ auto_intersphinx_packages = [
     ("python", "3"),
     "numpy",
     "matplotlib",
-    "PIL",
+    "pillow",
 ]
 auto_intersphinx_catalog = "catalog.json"
