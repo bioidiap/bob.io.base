@@ -106,10 +106,10 @@ autodoc_default_options = {
     "show-inheritance": True,
 }
 
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
-    "numpy": ("https://numpy.org/doc/stable/", None),
-    "matplotlib": ("https://matplotlib.org/stable/", None),
-    "PIL": ("https://pillow.readthedocs.io/en/latest/", None),
-}
+auto_intersphinx_packages = [
+    ("python", "3"),
+    "numpy",
+    "matplotlib",
+    "PIL",
+]
+auto_intersphinx_catalog = "catalog.json"

@@ -30,7 +30,7 @@ dependencies = [
 ]
 
 [project.urls]
-documentation = "https://www.idiap.ch/software/bob/docs/bob/bob.io.base/master/"
+documentation = "https://www.idiap.ch/software/bob/docs/bob/bob.io.base/master/sphinx"
 homepage = "https://pypi.org/project/bob.io.base"
 repository = "https://gitlab.idiap.ch/bob/bob.io.base"
 changelog = "https://gitlab.idiap.ch/bob/bob.io.base/-/releases"
@@ -40,6 +40,7 @@ qa = ["pre-commit"]
 doc = [
     "sphinx",
     "sphinx_rtd_theme",
+    "auto-intersphinx",
     ]
 test = [
     "pytest",
