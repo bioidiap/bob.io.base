@@ -154,7 +154,7 @@ def load(inputs):
     """load(inputs) -> data.
 
     Loads the contents of a file, an iterable of files, or an iterable of
-    :py:class:`bob.io.base.File`'s into a :py:class:`numpy.ndarray`.
+    :class:`File` objects into a :py:class:`numpy.ndarray`.
 
     **Parameters:**
 
@@ -208,7 +208,7 @@ def load(inputs):
     else:
         raise TypeError(
             "Unexpected input object. This function is expecting a filename, "
-            "or an iterable of filenames and/or bob.io.base.File's"
+            "or an iterable of filenames and/or File objects."
         )
 
 
