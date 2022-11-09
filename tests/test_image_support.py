@@ -14,7 +14,7 @@ import numpy
 import pytest
 
 from bob.io.base import load, write
-from bob.io.base.test_utils import datafile, temporary_filename
+from bob.io.base.testing_utils import datafile, temporary_filename
 
 # These are some global parameters for the test.
 PNG_INDEXED_COLOR = datafile("img_indexed_color.png", __name__)

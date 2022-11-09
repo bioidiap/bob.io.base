@@ -58,8 +58,8 @@ def temporary_filename(prefix="bobtest_", suffix=".hdf5"):
 
     .. code-block:: py
 
-       import bob.io.base.test_utils
-       temp = bob.io.base.test_utils.temporary_filename()
+       import bob.io.base.testing_utils
+       temp = bob.io.base.testing_utils.temporary_filename()
        try:
          # use the temp file
          ...
@@ -96,9 +96,9 @@ def extension_available(extension):
 
     .. code-block:: py
 
-       import bob.io.base.test_utils
+       import bob.io.base.testing_utils
 
-       @bob.io.base.test_utils.extension_available('.ext')
+       @bob.io.base.testing_utils.extension_available('.ext')
        def my_test():
          ...
     """

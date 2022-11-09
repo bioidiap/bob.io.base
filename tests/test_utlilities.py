@@ -4,7 +4,7 @@ import click
 
 from click.testing import CliRunner
 
-from bob.io.base import test_utils
+from bob.io.base import testing_utils
 
 
 @click.command("dummy")
@@ -25,14 +25,14 @@ def dummy_command_raise():
 def test_assert_dummy():
     result = CliRunner().invoke(dummy_command_0)
     assert result.exit_code == 0
-    test_utils.assert_click_runner_result(result)
+    testing_utils.assert_click_runner_result(result)
 
     result = CliRunner().invoke(dummy_command_1)
     assert result.exit_code == 1
-    test_utils.assert_click_runner_result(result, exit_code=1)
+    testing_utils.assert_click_runner_result(result, exit_code=1)
 
     result = CliRunner().invoke(dummy_command_raise)
     assert result.exit_code == 1
-    test_utils.assert_click_runner_result(
+    testing_utils.assert_click_runner_result(
         result, exit_code=1, exception_type=RuntimeError
     )
