@@ -1,12 +1,10 @@
 #!/usr/bin/env python
-# vim: set fileencoding=utf-8 :
 # Laurent El Shafey <laurent.el-shafey@idiap.ch>
 # Wed Aug 14 12:27:57 CEST 2013
 #
 # Copyright (C) 2011-2014 Idiap Research Institute, Martigny, Switzerland
 
-"""Runs some image tests
-"""
+"""Runs some image tests."""
 
 import os
 
@@ -16,8 +14,7 @@ import numpy
 import pytest
 
 from bob.io.base import load, write
-
-from ..test_utils import datafile, temporary_filename
+from bob.io.base.testing_utils import datafile, temporary_filename
 
 # These are some global parameters for the test.
 PNG_INDEXED_COLOR = datafile("img_indexed_color.png", __name__)
@@ -71,7 +68,6 @@ def test_png_gray_alpha():
 
 
 def transcode(filename):
-
     tmpname = temporary_filename(suffix=os.path.splitext(filename)[1])
     tmpnam_ = temporary_filename(suffix=os.path.splitext(filename)[1])
 
@@ -106,7 +102,6 @@ def transcode(filename):
 
 
 def test_netpbm():
-
     transcode(datafile("test.pbm", __name__))  # indexed, works fine
     transcode(datafile("test.pgm", __name__))  # indexed, works fine
     transcode(datafile("test.ppm", __name__))  # indexed, works fine

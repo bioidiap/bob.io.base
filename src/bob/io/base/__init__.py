@@ -38,10 +38,11 @@ def _is_string(s):
 
 @np.deprecate(new_name="os.makedirs(directory, exist_ok=True)")
 def create_directories_safe(directory, dryrun=False):
-    """Creates a directory if it does not exists, with concurrent access support.
-    This function will also create any parent directories that might be required.
-    If the dryrun option is selected, it does not actually create the directory,
-    but just writes the (Linux) command that would have been executed.
+    """Creates a directory if it does not exists, with concurrent access
+    support. This function will also create any parent directories that might
+    be required. If the dryrun option is selected, it does not actually create
+    the directory, but just writes the (Linux) command that would have been
+    executed.
 
     **Parameters:**
 
@@ -57,18 +58,14 @@ def create_directories_safe(directory, dryrun=False):
         os.makedirs(directory, exist_ok=True)
 
 
-def open_file(filename):
-    """open_file(filename) -> file
-
-    Opens a file for reading.
+def open_file(filename) -> np.ndarray:
+    """Reads a file content.
 
     Parameters
     ----------
 
     ``filename`` : str
       The name of the file to open.
-
-
     """
 
     def check_gray(img):
@@ -119,11 +116,8 @@ def open_file(filename):
         raise ValueError(f"Unknown file extension: {extension}")
 
 
-def write_file(filename, data, format="pillow"):
-    """
-    write_file(filename, data) -> None
-
-    Writes the contents of a :py:class:`numpy.ndarray` to a file.
+def write_file(filename, data, format="pillow") -> None:
+    """Writes the contents of a :py:class:`numpy.ndarray` to a file.
 
     Parameters
     ----------
@@ -136,8 +130,6 @@ def write_file(filename, data, format="pillow"):
 
     ``format`` : str
       The format to use to read the file. By default imageio selects the appropriate for you based on the filename and its contents
-
-
     """
 
     extension = os.path.splitext(filename)[1]  # get the extension
@@ -154,11 +146,11 @@ def write_file(filename, data, format="pillow"):
         raise RuntimeError(f"Unknown file extension: {extension}")
 
 
-def load(inputs):
-    """load(inputs) -> data
+def load(inputs) -> np.ndarray:
+    """Loads the content of a file.
 
-    Loads the contents of a file, an iterable of files, or an iterable of
-    :py:class:`bob.io.base.File`'s into a :py:class:`numpy.ndarray`.
+    Will take a filename (or an iterable of filenames) and put the content into a
+    :py:class:`numpy.ndarray`.
 
     **Parameters:**
 
@@ -173,13 +165,6 @@ def load(inputs):
          would assume that each file contains a single 1D sample or a set of 1D
          samples, load them in memory and concatenate them into a single and
          returned 2D :py:class:`numpy.ndarray`.
-      3. An iterable of :py:class:`File`. In this case, this would assume
-         that each :py:class:`File` contains a single 1D sample or a set
-         of 1D samples, load them in memory if required and concatenate them into
-         a single and returned 2D :py:class:`numpy.ndarray`.
-      4. An iterable with mixed filenames and :py:class:`File`. In this
-         case, this would returned a 2D :py:class:`numpy.ndarray`, as described
-         by points 2 and 3 above.
 
     **Returns:**
 
@@ -212,16 +197,15 @@ def load(inputs):
     else:
         raise TypeError(
             "Unexpected input object. This function is expecting a filename, "
-            "or an iterable of filenames and/or bob.io.base.File's"
+            "or an iterable of filenames."
         )
 
 
 def save(array, filename, create_directories=False):
     """Saves the contents of an array-like object to file.
 
-    Effectively, this is the same as creating a :py:class:`File` object
-    with the mode flag set to ``'w'`` (write with truncation) and calling
-    :py:meth:`File.write` passing ``array`` as parameter.
+    Effectively, this is the same as opening a file with the mode flag set to ``'w'``
+    (write with truncation) and calling ``file.write`` passing ``array`` as parameter.
 
     Parameters:
 
