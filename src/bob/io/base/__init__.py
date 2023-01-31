@@ -131,7 +131,6 @@ def write_file(filename, data, format="pillow") -> None:
     ``format`` : str
       The format to use to read the file. By default imageio selects the appropriate for you based on the filename and its contents
     """
-
     extension = os.path.splitext(filename)[1]  # get the extension
 
     if extension in hdf5_extensions:
@@ -171,7 +170,6 @@ def load(inputs) -> np.ndarray:
     ``data`` : :py:class:`numpy.ndarray`
       The data loaded from the given ``inputs``.
     """
-
     from collections.abc import Iterable
 
     import numpy
@@ -261,7 +259,6 @@ def _generate_features(reader, paths, same_size=False):
       features and the shape of the first feature. The rest of objects are
       the actual values in features. The features are returned in C order.
     """
-
     shape_determined = False
     for i, path in enumerate(paths):
 
