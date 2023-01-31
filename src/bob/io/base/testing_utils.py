@@ -41,7 +41,6 @@ def datafile(f, module=None, path="data"):
     ``filename`` : str
       The full path of the file
     """
-
     resource = __name__ if module is None else module
     final_path = f if path is None else os.path.join(path, f)
     import pkg_resources
@@ -102,7 +101,6 @@ def extension_available(extension):
        def my_test():
          ...
     """
-
     def test_wrapper(test):
         @functools.wraps(test)
         def wrapper(*args, **kwargs):

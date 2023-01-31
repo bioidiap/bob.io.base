@@ -15,7 +15,6 @@ from bob.io.base import load, save
 
 def read_write_check(data, numpy_assert=True):
     """Testing loading and save different file types."""
-
     with tempfile.NamedTemporaryFile(prefix="bobtest_", suffix=".hdf5") as f:
         save(data, f.name)
         data2 = load(f.name)
