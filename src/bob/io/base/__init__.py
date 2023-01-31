@@ -67,6 +67,7 @@ def open_file(filename) -> np.ndarray:
     ``filename`` : str
       The name of the file to open.
     """
+
     def check_gray(img):
         # Checking for gray scaled images
         if (
