@@ -101,6 +101,7 @@ def extension_available(extension):
        def my_test():
          ...
     """
+
     def test_wrapper(test):
         @functools.wraps(test)
         def wrapper(*args, **kwargs):
