@@ -21,10 +21,10 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
+    "bob",
     "h5py",
     "imageio",
     "numpy",
-    "click",
     "pillow",
 ]
 

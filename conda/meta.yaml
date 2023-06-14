@@ -21,6 +21,7 @@ requirements:
     - python {{ python }}
     - setuptools {{ setuptools }}
     - pip {{ pip }}
+    - bob
     - h5py {{ h5py }}
     - numpy {{ numpy }}
     - pillow {{ pillow }}
@@ -29,6 +30,7 @@ requirements:
   run:
     - python
     - setuptools
+    - bob
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('pillow') }}
     - {{ pin_compatible('imageio') }}
