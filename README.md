@@ -1,6 +1,6 @@
-[![latest-docs](https://img.shields.io/badge/docs-latest-orange.svg)](https://www.idiap.ch/software/bob/docs/bob/bob.io.base/master/sphinx/index.html)
-[![build](https://gitlab.idiap.ch/bob/bob.io.base/badges/master/pipeline.svg)](https://gitlab.idiap.ch/bob/bob.io.base/commits/master)
-[![coverage](https://gitlab.idiap.ch/bob/bob.io.base/badges/master/coverage.svg)](https://www.idiap.ch/software/bob/docs/bob/bob.io.base/master/coverage/index.html)
+[![latest-docs](https://img.shields.io/badge/docs-v5.1.0-orange.svg)](https://www.idiap.ch/software/bob/docs/bob/bob.io.base/v5.1.0/sphinx/index.html)
+[![build](https://gitlab.idiap.ch/bob/bob.io.base/badges/v5.1.0/pipeline.svg)](https://gitlab.idiap.ch/bob/bob.io.base/commits/v5.1.0)
+[![coverage](https://gitlab.idiap.ch/bob/bob.io.base/badges/v5.1.0/coverage.svg)](https://www.idiap.ch/software/bob/docs/bob/bob.io.base/v5.1.0/coverage/index.html)
 [![repository](https://img.shields.io/badge/gitlab-project-0000c0.svg)](https://gitlab.idiap.ch/bob/bob.io.base)
 
 # bob.io.base
